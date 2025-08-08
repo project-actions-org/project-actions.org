@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Actions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @layer base {
+            body {
+                font-family: 'Roboto', sans-serif;
+                font-weight: 300;
+            }
+        }
+        
+        h1, h2, h3, h4, h5, h6, strong {
+            font-weight: 700;
+        }
+
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="flex min-h-full flex-col">
+        <div class="mx-auto flex w-full max-w-7xl items-start gap-x-8 px-4 py-10 sm:px-6 lg:px-8">
+          <aside class="sticky top-8 hidden w-56 shrink-0 lg:block">
+            <div class="text-2xl font-bold">
+                [<span class="text-green-500">></span>] Project Actions
+            </div>
+          </aside>
+      
+          <main class="flex-1">
+            <!-- Main area -->
+            <p class="font-light">
+                Project Actions are like Github Actions for your projects.  Write
+                workflows in YAML and run them via a command-line interface.
+            </p>
+
+            <h2 class="text-xl font-bold mt-4 mb-2">
+                Key Features
+            </h2>
+
+            <ul class="list-disc list-outside ml-6">
+                <li>
+                    <strong>No Long Hard-to-Read Bash Scripts:</strong>
+                    <p>
+                        Like Github Actions, but for your projects, no more bespoke bash scripts to maintain.
+                    </p>
+                    
+                </li>
+                <li>
+                    <strong>Multi-Platform Command Runner:</strong>
+                    <p>
+                        Runs on Mac, or Linux (for example inside your docker container)
+                    </p>
+                    
+                </li>
+                <li>
+                    <strong>Docker Container Friendly:</strong>
+                    <p>
+                        Commands can be run inside or outside of a docker container
+                    </p>
+                    
+                </li>
+                <li>
+                    <strong>Automatic Help Messaging:</strong>
+                    <p>
+                        Help messages are automatically generated from your YAML files
+                    </p>
+                </li>
+                <li>
+                    <strong>Project Integration:</strong>
+                    <p>
+                        Works seamlessly with your existing project structure.
+                    </p>
+                    
+                </li>
+            </ul>
+
+            <h2 class="text-xl font-bold mt-4 mb-2">
+                Installation
+            </h2>
+            
+            <!-- Cli formatted output -->
+            <div class="space-y-2">
+                <code class="block w-full bg-gray-100 p-3 rounded">
+                    <span class="text-green-500">$</span> curl -s https://project-actions.org/install.sh | bash
+                </code>
+            </div>
+            
+            <h3 class="text-xl font-bold mt-4 mb-2">
+                Usage
+            </h3>
+
+            <div class="space-y-2">
+                <code class="block w-full bg-gray-100 p-3 rounded">
+                    <span class="text-green-500">$</span> project help
+                </code>
+            </div>
+
+            <h3 class="text-xl font-bold mt-4 mb-2">
+                Typical (Built-in) Commands
+            </h3>
+
+            <div class="space-y-2">
+                <code class="block w-full bg-gray-100 p-3 rounded">
+                    <span class="text-green-500">$</span> project up
+                </code>
+                <code class="block w-full bg-gray-100 p-3 rounded">
+                    <span class="text-green-500">$</span> project down
+                </code>
+                <code class="block w-full bg-gray-100 p-3 rounded">
+                    <span class="text-green-500">$</span> project console
+                </code>
+                <code class="block w-full bg-gray-100 p-3 rounded">
+                    <span class="text-green-500">$</span> project refresh
+                </code>
+            </div>
+
+            <h3 class="text-xl font-bold mt-4 mb-2">
+                Layout &amp; Files
+            </h3>
+            
+            <p>
+                Project Actions uses a simple YAML files to define commands located in the <code class="bg-gray-100 p-1 rounded">.project/workflows</code> directory.
+                Here is a sample workflow for an <code class="bg-gray-100 p-1 rounded">up</code> command:
+            </p>
+            
+            <div class="space-y-2 mt-2">
+                <code class="block w-full bg-gray-100 p-3 rounded whitespace-pre text-sm">
+help:
+  short: Bring the project up
+  long: |
+    This command is used to bring the project up, which includes starting
+    all necessary services and ensuring the environment is ready for use.
+
+    Note: If you are running this for the first time, you should run
+    `project setup` first.
+  order: 2
+
+context: outside-container
+
+steps:
+  - action: compose-up
+  - echo: "Project is now up and running"
+
+  - if-option: refresh|fresh
+    then:
+      - command: refresh
+
+  - echo: |
+      The project is now up and running. You can access it at:
+      - Web: http://localhost:8000
+                </code>
+            </div>
+
+
+          </main>
+      
+          <aside class="sticky top-8 hidden w-48 shrink-0 xl:block">
+            <!-- Right column area -->
+             <a
+                class="text-blue-500 hover:underline"
+             href="https://github.com/project-actions-org/project-actions"
+             >
+                Github
+             </a>
+          </aside>
+        </div>
+      </div>
+</body>
+</html>
