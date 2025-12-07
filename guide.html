@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writing Commands Guide - Project Actions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+        .sidebar-link {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #4b5563;
+            border-left: 3px solid transparent;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            color: #7c3aed;
+            border-left-color: #7c3aed;
+            background: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold text-gray-900">
+                        <span class="text-purple-600">[>]</span> Project Actions
+                    </a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="/" class="text-gray-600 hover:text-gray-900">Home</a>
+                    <a href="/docs.html" class="text-gray-600 hover:text-gray-900">Documentation</a>
+                    <a href="/guide.html" class="text-purple-600 font-medium">Guide</a>
+                    <a href="/quick-start.html" class="text-gray-600 hover:text-gray-900">Quick Start</a>
+                    <a href="https://github.com/project-actions-org/project-actions-runner" class="text-gray-600 hover:text-gray-900">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex gap-8">
+            <!-- Sidebar -->
+            <aside class="hidden lg:block w-64 shrink-0">
+                <div class="sticky top-8 bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    <div class="p-4 bg-gray-50 border-b border-gray-200">
+                        <h3 class="font-bold text-gray-900">Guide</h3>
+                    </div>
+                    <nav class="py-2">
+                        <a href="#command-basics" class="sidebar-link">Command Basics</a>
+                        <a href="#help-metadata" class="sidebar-link">Help Metadata</a>
+                        <a href="#conditional-logic" class="sidebar-link">Conditional Logic</a>
+                        <a href="#command-options" class="sidebar-link">Command Options</a>
+                        <a href="#docker-workflows" class="sidebar-link">Docker Workflows</a>
+                        <a href="#best-practices" class="sidebar-link">Best Practices</a>
+                        <a href="#examples" class="sidebar-link">Complete Examples</a>
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-1 bg-white rounded-lg border border-gray-200 p-8">
+
+                <h1 class="text-4xl font-bold mb-4 text-gray-900">Writing Commands Guide</h1>
+                <p class="text-xl text-gray-600 mb-8">
+                    Learn how to create powerful, maintainable command workflows
+                </p>
+
+                <!-- Command Basics -->
+                <section id="command-basics" class="mb-12">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">Command Basics</h2>
+
+                    <p class="text-gray-700 mb-4">
+                        Commands are YAML files in your <code class="bg-gray-100 px-2 py-1 rounded">.project/</code> directory.
+                        The filename determines the command name.
+                    </p>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                        <p class="text-sm text-blue-900">
+                            <strong>File Naming:</strong>
+                            <code class="bg-blue-100 px-2 py-1 rounded">setup.yaml</code> becomes
+                            <code class="bg-blue-100 px-2 py-1 rounded">./project setup</code>
+                        </p>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Minimal Command</h3>
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-6">
+                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/hello.yaml</span>
+<span class="text-purple-400">help:</span>
+  <span class="text-purple-400">short:</span> <span class="text-green-400">Say hello</span>
+
+<span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Hello, World!"</span></code></pre>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Complete Structure</h3>
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-6">
+                        <pre class="text-gray-100"><code><span class="text-purple-400">help:</span>
+  <span class="text-purple-400">short:</span> <span class="text-green-400">One-line description</span>
+  <span class="text-purple-400">long:</span> <span class="text-green-400">|
+    Multi-line detailed description.
+    Explain usage, options, and examples.</span>
+  <span class="text-purple-400">order:</span> <span class="text-yellow-400">10</span>
+
+<span class="text-purple-400">context:</span> <span class="text-green-400">outside-container</span>
+
+<span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Starting..."</span>
+  - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm install"</span>
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"✓ Complete"</span></code></pre>
+                    </div>
+                </section>
+
+                <hr class="my-12 border-gray-200">
+
+                <!-- Help Metadata -->
+                <section id="help-metadata" class="mb-12">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">Help Metadata</h2>
+
+                    <p class="text-gray-700 mb-6">
+                        The <code class="bg-gray-100 px-2 py-1 rounded">help</code> section defines how your command appears.
+                    </p>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Order Guidelines</h3>
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <p class="font-bold mb-2 text-gray-900">1-10: Setup</p>
+                            <p class="text-sm text-gray-600">Installation, initialization</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <p class="font-bold mb-2 text-gray-900">11-50: Development</p>
+                            <p class="text-sm text-gray-600">Daily development commands</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <p class="font-bold mb-2 text-gray-900">51-89: Maintenance</p>
+                            <p class="text-sm text-gray-600">Less frequent tasks</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <p class="font-bold mb-2 text-gray-900">90-99: Cleanup</p>
+                            <p class="text-sm text-gray-600">Teardown, removal</p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Documenting Options</h3>
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-6">
+                        <pre class="text-gray-100"><code><span class="text-purple-400">help:</span>
+  <span class="text-purple-400">short:</span> <span class="text-green-400">Deploy the application</span>
+  <span class="text-purple-400">long:</span> <span class="text-green-400">|
+    Deploy the application to specified environment.
+
+    Options:
+      --production  Deploy to production
+      --staging     Deploy to staging
+      --dry-run     Show what would happen</span>
+  <span class="text-purple-400">order:</span> <span class="text-yellow-400">90</span></code></pre>
+                    </div>
+                </section>
+
+                <hr class="my-12 border-gray-200">
+
+                <!-- Conditional Logic -->
+                <section id="conditional-logic" class="mb-12">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">Conditional Logic</h2>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Option-Based Conditionals</h3>
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-6">
+                        <pre class="text-gray-100"><code><span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Building..."</span>
+
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">production</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Production build"</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm run build:prod"</span>
+
+  - <span class="text-purple-400">if-no-option:</span> <span class="text-green-400">production</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Development build"</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm run build:dev"</span></code></pre>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">OR Logic</h3>
+                    <p class="text-gray-700 mb-4">
+                        Use pipe (<code class="bg-gray-100 px-2 py-1 rounded">|</code>) to check multiple options:
+                    </p>
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-6">
+                        <pre class="text-gray-100"><code><span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">debug|trace|verbose</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Detailed logging enabled"</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"export DEBUG=*"</span></code></pre>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">File-Based Conditionals</h3>
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-6">
+                        <pre class="text-gray-100"><code><span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">if-missing:</span> <span class="text-green-400">node_modules</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Installing dependencies..."</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm install"</span>
+
+  - <span class="text-purple-400">if-missing:</span> <span class="text-green-400">.env</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"cp .env.example .env"</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"⚠️  Please configure .env"</span></code></pre>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Nested Conditionals</h3>
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-6">
+                        <pre class="text-gray-100"><code><span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">production</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Production deployment"</span>
+
+      - <span class="text-purple-400">if-missing:</span> <span class="text-green-400">dist</span>
+        <span class="text-purple-400">then:</span>
+          - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Building first..."</span>
+          - <span class="text-purple-400">command:</span> <span class="text-green-400">build</span>
+
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"./deploy.sh production"</span></code></pre>
+                    </div>
+                </section>
+
+                <hr class="my-12 border-gray-200">
+
+                <!-- Command Options -->
+                <section id="command-options" class="mb-12">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">Command Options</h2>
+
+                    <p class="text-gray-700 mb-4">
+                        Users pass options with <code class="bg-gray-100 px-2 py-1 rounded">--flag</code> syntax:
+                    </p>
+
+                    <div class="code-block p-4 rounded-lg mb-6 text-sm">
+                        <code>./project deploy --production --verbose</code><br>
+                        <code>./project build --watch</code><br>
+                        <code>./project test --unit --coverage</code>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Example: Test Command</h3>
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-6">
+                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/test.yaml</span>
+<span class="text-purple-400">help:</span>
+  <span class="text-purple-400">short:</span> <span class="text-green-400">Run tests</span>
+  <span class="text-purple-400">long:</span> <span class="text-green-400">|
+    Run the test suite with various options.
+
+    Options:
+      --watch      Watch for changes
+      --coverage   Generate coverage report
+      --unit       Run only unit tests
+      --e2e        Run only E2E tests</span>
+  <span class="text-purple-400">order:</span> <span class="text-yellow-400">30</span>
+
+<span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"🧪 Running tests..."</span>
+
+  - <span class="text-purple-400">check-for:</span> <span class="text-green-400">npm</span>
+
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">unit</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm run test:unit"</span>
+
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">e2e</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm run test:e2e"</span>
+
+  - <span class="text-purple-400">if-no-option:</span> <span class="text-green-400">unit|e2e</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm test"</span>
+
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">coverage</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm run test:coverage"</span>
+
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"✅ Tests complete"</span></code></pre>
+                    </div>
+                </section>
+
+                <hr class="my-12 border-gray-200">
+
+                <!-- Docker Workflows -->
+                <section id="docker-workflows" class="mb-12">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">Docker Workflows</h2>
+
+                    <p class="text-gray-700 mb-6">
+                        Project Actions has built-in Docker Compose support for container-based development.
+                    </p>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Starting Services</h3>
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-6">
+                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/up.yaml</span>
+<span class="text-purple-400">help:</span>
+  <span class="text-purple-400">short:</span> <span class="text-green-400">Start the project</span>
+  <span class="text-purple-400">long:</span> <span class="text-green-400">|
+    Start all services using docker-compose.
+
+    Options:
+      --fresh    Reset database and run migrations
+      --build    Rebuild images before starting</span>
+  <span class="text-purple-400">order:</span> <span class="text-yellow-400">10</span>
+
+<span class="text-purple-400">context:</span> <span class="text-green-400">outside-container</span>
+
+<span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">check-for:</span> <span class="text-green-400">docker</span>
+    <span class="text-purple-400">if-missing:</span> <span class="text-green-400">"Install Docker from https://docker.com"</span>
+
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">build</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Building images..."</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"docker-compose build"</span>
+
+  - <span class="text-purple-400">action:</span> <span class="text-green-400">compose-up</span>
+
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"⏳ Waiting for services..."</span>
+  - <span class="text-purple-400">run:</span> <span class="text-green-400">"sleep 3"</span>
+
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">fresh</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">action:</span> <span class="text-green-400">compose-exec</span>
+        <span class="text-purple-400">service:</span> <span class="text-green-400">web</span>
+        <span class="text-purple-400">command:</span> <span class="text-green-400">"php artisan migrate:fresh"</span>
+        <span class="text-purple-400">interactive:</span> <span class="text-yellow-400">false</span>
+
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">|
+      ✅ Project is up!
+      → Web: http://localhost:8000</span></code></pre>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Interactive Shell</h3>
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-6">
+                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/console.yaml</span>
+<span class="text-purple-400">help:</span>
+  <span class="text-purple-400">short:</span> <span class="text-green-400">Open shell in web container</span>
+  <span class="text-purple-400">order:</span> <span class="text-yellow-400">50</span>
+
+<span class="text-purple-400">context:</span> <span class="text-green-400">outside-container</span>
+
+<span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">action:</span> <span class="text-green-400">compose-exec</span>
+    <span class="text-purple-400">service:</span> <span class="text-green-400">web</span>
+    <span class="text-purple-400">command:</span> <span class="text-green-400">/bin/bash</span>
+    <span class="text-purple-400">interactive:</span> <span class="text-yellow-400">true</span></code></pre>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Stopping Services</h3>
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-6">
+                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/down.yaml</span>
+<span class="text-purple-400">help:</span>
+  <span class="text-purple-400">short:</span> <span class="text-green-400">Stop the project</span>
+  <span class="text-purple-400">order:</span> <span class="text-yellow-400">99</span>
+
+<span class="text-purple-400">context:</span> <span class="text-green-400">outside-container</span>
+
+<span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">action:</span> <span class="text-green-400">compose-down</span>
+    <span class="text-purple-400">volumes:</span> <span class="text-yellow-400">false</span>
+
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"✓ Project stopped"</span></code></pre>
+                    </div>
+                </section>
+
+                <hr class="my-12 border-gray-200">
+
+                <!-- Best Practices -->
+                <section id="best-practices" class="mb-12">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">Best Practices</h2>
+
+                    <div class="space-y-6">
+                        <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                            <h4 class="font-bold mb-2 text-gray-900">✓ Always Provide Help</h4>
+                            <p class="text-gray-700 mb-2">Clear descriptions help team members understand what commands do.</p>
+                            <div class="code-block p-3 rounded-lg text-sm">
+                                <code><span class="text-purple-400">help:</span><br>
+                                &nbsp;&nbsp;<span class="text-purple-400">short:</span> <span class="text-green-400">Clear one-liner</span><br>
+                                &nbsp;&nbsp;<span class="text-purple-400">long:</span> <span class="text-green-400">Detailed explanation with options</span></code>
+                            </div>
+                        </div>
+
+                        <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                            <h4 class="font-bold mb-2 text-gray-900">✓ Check Prerequisites</h4>
+                            <p class="text-gray-700 mb-2">Fail fast with helpful messages.</p>
+                            <div class="code-block p-3 rounded-lg text-sm">
+                                <code><span class="text-purple-400">steps:</span><br>
+                                &nbsp;&nbsp;- <span class="text-purple-400">check-for:</span> <span class="text-green-400">docker</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">if-missing:</span> <span class="text-green-400">"Install Docker first"</span></code>
+                            </div>
+                        </div>
+
+                        <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                            <h4 class="font-bold mb-2 text-gray-900">✓ Provide Feedback</h4>
+                            <p class="text-gray-700 mb-2">Let users know what's happening.</p>
+                            <div class="code-block p-3 rounded-lg text-sm">
+                                <code><span class="text-purple-400">steps:</span><br>
+                                &nbsp;&nbsp;- <span class="text-purple-400">echo:</span> <span class="text-green-400">"🚀 Starting deployment..."</span><br>
+                                &nbsp;&nbsp;- <span class="text-purple-400">run:</span> <span class="text-green-400">"./deploy.sh"</span><br>
+                                &nbsp;&nbsp;- <span class="text-purple-400">echo:</span> <span class="text-green-400">"✅ Deployment complete!"</span></code>
+                            </div>
+                        </div>
+
+                        <div class="bg-green-50 border-l-4 border-green-500 p-4">
+                            <h4 class="font-bold mb-2 text-gray-900">✓ Handle Missing Dependencies</h4>
+                            <p class="text-gray-700 mb-2">Auto-install when possible.</p>
+                            <div class="code-block p-3 rounded-lg text-sm">
+                                <code><span class="text-purple-400">steps:</span><br>
+                                &nbsp;&nbsp;- <span class="text-purple-400">if-missing:</span> <span class="text-green-400">node_modules</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">then:</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="text-purple-400">echo:</span> <span class="text-green-400">"Installing..."</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="text-purple-400">run:</span> <span class="text-green-400">"npm install"</span></code>
+                            </div>
+                        </div>
+
+                        <div class="bg-red-50 border-l-4 border-red-500 p-4">
+                            <h4 class="font-bold mb-2 text-gray-900">✗ Don't Hardcode Paths</h4>
+                            <p class="text-gray-700">Use relative paths and environment variables.</p>
+                        </div>
+
+                        <div class="bg-red-50 border-l-4 border-red-500 p-4">
+                            <h4 class="font-bold mb-2 text-gray-900">✗ Don't Skip Error Handling</h4>
+                            <p class="text-gray-700">Always check for required tools and files.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-12 border-gray-200">
+
+                <!-- Complete Examples -->
+                <section id="examples" class="mb-12">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">Complete Examples</h2>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Setup Command</h3>
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-8">
+                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/setup.yaml</span>
+<span class="text-purple-400">help:</span>
+  <span class="text-purple-400">short:</span> <span class="text-green-400">Setup the project</span>
+  <span class="text-purple-400">long:</span> <span class="text-green-400">|
+    Initialize the project for local development.
+    Checks dependencies, creates config files, and starts services.</span>
+  <span class="text-purple-400">order:</span> <span class="text-yellow-400">1</span>
+
+<span class="text-purple-400">context:</span> <span class="text-green-400">outside-container</span>
+
+<span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"🚀 Setting up project..."</span>
+
+  - <span class="text-purple-400">check-for:</span> <span class="text-green-400">docker</span>
+    <span class="text-purple-400">if-missing:</span> <span class="text-green-400">"Install Docker from https://docker.com"</span>
+
+  - <span class="text-purple-400">check-for:</span> <span class="text-green-400">node</span>
+    <span class="text-purple-400">if-missing:</span> <span class="text-green-400">"Install Node.js from https://nodejs.org"</span>
+
+  - <span class="text-purple-400">if-missing:</span> <span class="text-green-400">.env</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"cp .env.example .env"</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"⚠️  Please configure .env"</span>
+
+  - <span class="text-purple-400">if-missing:</span> <span class="text-green-400">node_modules</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Installing dependencies..."</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm install"</span>
+
+  - <span class="text-purple-400">command:</span> <span class="text-green-400">up</span>
+
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">|
+      ✅ Setup complete!
+
+      Next steps:
+        1. Configure .env with your settings
+        2. Run: ./project migrate
+        3. Visit: http://localhost:8000</span></code></pre>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Deployment Command</h3>
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-8">
+                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/deploy.yaml</span>
+<span class="text-purple-400">help:</span>
+  <span class="text-purple-400">short:</span> <span class="text-green-400">Deploy the application</span>
+  <span class="text-purple-400">long:</span> <span class="text-green-400">|
+    Deploy to specified environment.
+
+    Options:
+      --production  Deploy to production (requires confirmation)
+      --staging     Deploy to staging
+      --dry-run     Show what would be deployed</span>
+  <span class="text-purple-400">order:</span> <span class="text-yellow-400">90</span>
+
+<span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"🚀 Starting deployment..."</span>
+
+  - <span class="text-purple-400">check-for:</span> <span class="text-green-400">git</span>
+  - <span class="text-purple-400">check-for:</span> <span class="text-green-400">docker</span>
+
+  - <span class="text-purple-400">if-no-option:</span> <span class="text-green-400">staging|production</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"❌ Error: Specify --staging or --production"</span>
+
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">staging</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Deploying to STAGING"</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"git pull origin staging"</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"./deploy-staging.sh"</span>
+
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">production</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"⚠️  PRODUCTION DEPLOYMENT"</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"git pull origin main"</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"./deploy-production.sh"</span>
+
+  - <span class="text-purple-400">if-no-option:</span> <span class="text-green-400">dry-run</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"✅ Deployment complete!"</span></code></pre>
+                    </div>
+                </section>
+
+                <!-- Learn More -->
+                <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-6 border border-purple-200">
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Learn More</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-gray-700 font-medium mb-2">Examples</p>
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li>→ <a href="https://github.com/project-actions-org/project-actions-runner/tree/main/examples/simple-project" class="text-purple-600 hover:underline">Simple Project</a></li>
+                                <li>→ <a href="https://github.com/project-actions-org/project-actions-runner/tree/main/examples/docker-compose-project" class="text-purple-600 hover:underline">Docker Compose Project</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-gray-700 font-medium mb-2">Reference</p>
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li>→ <a href="/docs.html" class="text-purple-600 hover:underline">Full Documentation</a></li>
+                                <li>→ <a href="https://github.com/project-actions-org/project-actions-runner" class="text-purple-600 hover:underline">GitHub Repository</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p class="text-sm">MIT License &copy; 2024 Project Actions. Open source and free forever.</p>
+                <div class="mt-4 space-x-4">
+                    <a href="/" class="hover:text-white">Home</a>
+                    <a href="/docs.html" class="hover:text-white">Docs</a>
+                    <a href="https://github.com/project-actions-org/project-actions-runner" class="hover:text-white">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - Project Actions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+        .sidebar-link {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #4b5563;
+            border-left: 3px solid transparent;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            color: #7c3aed;
+            border-left-color: #7c3aed;
+            background: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold text-gray-900">
+                        <span class="text-purple-600">[>]</span> Project Actions
+                    </a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="/" class="text-gray-600 hover:text-gray-900">Home</a>
+                    <a href="/docs.html" class="text-purple-600 font-medium">Documentation</a>
+                    <a href="/guide.html" class="text-gray-600 hover:text-gray-900">Guide</a>
+                    <a href="/quick-start.html" class="text-gray-600 hover:text-gray-900">Quick Start</a>
+                    <a href="https://github.com/project-actions-org/project-actions-runner" class="text-gray-600 hover:text-gray-900">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex gap-8">
+            <!-- Sidebar -->
+            <aside class="hidden lg:block w-64 shrink-0">
+                <div class="sticky top-8 bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    <div class="p-4 bg-gray-50 border-b border-gray-200">
+                        <h3 class="font-bold text-gray-900">Documentation</h3>
+                    </div>
+                    <nav class="py-2">
+                        <a href="#installation" class="sidebar-link">Installation</a>
+                        <a href="#command-structure" class="sidebar-link">Command Structure</a>
+                        <a href="#built-in-actions" class="sidebar-link">Built-in Actions</a>
+                        <a href="#conditionals" class="sidebar-link">Conditionals</a>
+                        <a href="#docker" class="sidebar-link">Docker Integration</a>
+                        <a href="#cli-reference" class="sidebar-link">CLI Reference</a>
+                        <a href="#troubleshooting" class="sidebar-link">Troubleshooting</a>
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-1 bg-white rounded-lg border border-gray-200 p-8">
+
+                <!-- Installation -->
+                <section id="installation" class="mb-12">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">Installation</h2>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Quick Install</h3>
+                    <p class="text-gray-700 mb-4">
+                        Run this command in your project directory:
+                    </p>
+                    <div class="code-block p-4 rounded-lg mb-6">
+                        <code>curl -fsSL https://project-actions.org/install.sh | bash</code>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">With Starter Commands</h3>
+                    <p class="text-gray-700 mb-4">
+                        Include example commands to get started quickly:
+                    </p>
+                    <div class="code-block p-4 rounded-lg mb-6">
+                        <code>curl -fsSL https://project-actions.org/install.sh | bash -s -- --with-starter-commands</code>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">What Gets Installed</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2 mb-6">
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">.project/</code> - Directory for your commands</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">.project/.runtime/</code> - Runner binaries (auto-downloaded)</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">project</code> - Executable wrapper script</li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Requirements</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li>macOS (Intel or Apple Silicon) or Linux</li>
+                        <li>Bash shell</li>
+                        <li>curl or wget</li>
+                        <li>Internet connection (for initial download)</li>
+                    </ul>
+                </section>
+
+                <hr class="my-12 border-gray-200">
+
+                <!-- Command Structure -->
+                <section id="command-structure" class="mb-12">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">Command Structure</h2>
+
+                    <p class="text-gray-700 mb-4">
+                        Commands are YAML files in the <code class="bg-gray-100 px-2 py-1 rounded">.project/</code> directory:
+                    </p>
+
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-6">
+                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/command-name.yaml</span>
+<span class="text-purple-400">help:</span>
+  <span class="text-purple-400">short:</span> <span class="text-green-400">One-line description (required)</span>
+  <span class="text-purple-400">long:</span> <span class="text-green-400">|
+    Multi-line detailed description (optional)
+    Shown when user runs: project command-name --help</span>
+  <span class="text-purple-400">order:</span> <span class="text-yellow-400">10</span>  <span class="text-gray-500"># Display order (optional)</span>
+
+<span class="text-purple-400">context:</span> <span class="text-green-400">outside-container</span>  <span class="text-gray-500"># or inside-container:service</span>
+
+<span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Hello World"</span>
+  - <span class="text-purple-400">run:</span> <span class="text-green-400">"echo 'Shell command'"</span></code></pre>
+                    </div>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Help Section</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2 mb-6">
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">short</code> - Required. Brief one-line description</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">long</code> - Optional. Detailed multi-line description</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">order</code> - Optional. Controls display order (1-99)</li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Context</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-2">
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">outside-container</code> - Run on host machine</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">inside-container:service</code> - Run inside Docker container</li>
+                    </ul>
+                </section>
+
+                <hr class="my-12 border-gray-200">
+
+                <!-- Built-in Actions -->
+                <section id="built-in-actions" class="mb-12">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">Built-in Actions</h2>
+
+                    <!-- Echo -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">echo</h3>
+                        <p class="text-gray-700 mb-4">Print messages to the console.</p>
+                        <div class="bg-gray-900 rounded-lg p-4 text-sm mb-4">
+                            <pre class="text-gray-100"><code><span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Simple message"</span>
+
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">|
+      Multi-line message
+      with multiple lines</span></code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Run -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">run</h3>
+                        <p class="text-gray-700 mb-4">Execute shell commands.</p>
+                        <div class="bg-gray-900 rounded-lg p-4 text-sm mb-4">
+                            <pre class="text-gray-100"><code><span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm install"</span>
+
+  - <span class="text-purple-400">run:</span> <span class="text-green-400">|
+      echo "Running multiple commands"
+      npm test
+      echo "Tests complete"</span></code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Command -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">command</h3>
+                        <p class="text-gray-700 mb-4">Call other Project Actions commands.</p>
+                        <div class="bg-gray-900 rounded-lg p-4 text-sm mb-4">
+                            <pre class="text-gray-100"><code><span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">command:</span> <span class="text-green-400">setup</span>
+  - <span class="text-purple-400">command:</span> <span class="text-green-400">build</span></code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Check-for -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">check-for</h3>
+                        <p class="text-gray-700 mb-4">Verify that a tool exists in PATH.</p>
+                        <div class="bg-gray-900 rounded-lg p-4 text-sm mb-4">
+                            <pre class="text-gray-100"><code><span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">check-for:</span> <span class="text-green-400">docker</span>
+    <span class="text-purple-400">if-missing:</span> <span class="text-green-400">|
+      Docker is required but not found.
+      Install from https://docker.com</span></code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-12 border-gray-200">
+
+                <!-- Docker Actions -->
+                <section id="docker" class="mb-12">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">Docker Actions</h2>
+
+                    <!-- Compose-up -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">compose-up</h3>
+                        <p class="text-gray-700 mb-4">Start Docker Compose services.</p>
+                        <div class="bg-gray-900 rounded-lg p-4 text-sm mb-4">
+                            <pre class="text-gray-100"><code><span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">action:</span> <span class="text-green-400">compose-up</span>
+    <span class="text-purple-400">detached:</span> <span class="text-yellow-400">true</span>  <span class="text-gray-500"># default</span></code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Compose-stop -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">compose-stop</h3>
+                        <p class="text-gray-700 mb-4">Stop Docker Compose services (without removing).</p>
+                        <div class="bg-gray-900 rounded-lg p-4 text-sm mb-4">
+                            <pre class="text-gray-100"><code><span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">action:</span> <span class="text-green-400">compose-stop</span></code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Compose-down -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">compose-down</h3>
+                        <p class="text-gray-700 mb-4">Stop and remove Docker Compose services.</p>
+                        <div class="bg-gray-900 rounded-lg p-4 text-sm mb-4">
+                            <pre class="text-gray-100"><code><span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">action:</span> <span class="text-green-400">compose-down</span>
+    <span class="text-purple-400">volumes:</span> <span class="text-yellow-400">false</span>  <span class="text-gray-500"># Keep volumes (default)</span>
+
+  - <span class="text-purple-400">action:</span> <span class="text-green-400">compose-down</span>
+    <span class="text-purple-400">volumes:</span> <span class="text-yellow-400">true</span>   <span class="text-gray-500"># Remove volumes too</span></code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Compose-exec -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">compose-exec</h3>
+                        <p class="text-gray-700 mb-4">Execute commands in running containers.</p>
+                        <div class="bg-gray-900 rounded-lg p-4 text-sm mb-4">
+                            <pre class="text-gray-100"><code><span class="text-purple-400">steps:</span>
+  <span class="text-gray-500"># Interactive shell</span>
+  - <span class="text-purple-400">action:</span> <span class="text-green-400">compose-exec</span>
+    <span class="text-purple-400">service:</span> <span class="text-green-400">web</span>
+    <span class="text-purple-400">command:</span> <span class="text-green-400">/bin/bash</span>
+    <span class="text-purple-400">interactive:</span> <span class="text-yellow-400">true</span>
+
+  <span class="text-gray-500"># Non-interactive command</span>
+  - <span class="text-purple-400">action:</span> <span class="text-green-400">compose-exec</span>
+    <span class="text-purple-400">service:</span> <span class="text-green-400">web</span>
+    <span class="text-purple-400">command:</span> <span class="text-green-400">"php artisan migrate"</span>
+    <span class="text-purple-400">interactive:</span> <span class="text-yellow-400">false</span></code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-12 border-gray-200">
+
+                <!-- Conditionals -->
+                <section id="conditionals" class="mb-12">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">Conditionals</h2>
+
+                    <!-- if-option -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">if-option</h3>
+                        <p class="text-gray-700 mb-4">Execute steps when a command-line option is provided.</p>
+                        <div class="bg-gray-900 rounded-lg p-4 text-sm mb-4">
+                            <pre class="text-gray-100"><code><span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">production</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Production mode"</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm run build:prod"</span>
+
+  <span class="text-gray-500"># OR logic with pipe</span>
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">debug|trace|verbose</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Debug logging enabled"</span></code></pre>
+                        </div>
+                        <p class="text-gray-700 text-sm">
+                            Usage: <code class="bg-gray-100 px-2 py-1 rounded">./project command-name --production</code>
+                        </p>
+                    </div>
+
+                    <!-- if-no-option -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">if-no-option</h3>
+                        <p class="text-gray-700 mb-4">Execute steps when an option is NOT provided.</p>
+                        <div class="bg-gray-900 rounded-lg p-4 text-sm mb-4">
+                            <pre class="text-gray-100"><code><span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">if-no-option:</span> <span class="text-green-400">skip-tests</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Running tests..."</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm test"</span></code></pre>
+                        </div>
+                    </div>
+
+                    <!-- if-missing -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">if-missing</h3>
+                        <p class="text-gray-700 mb-4">Execute steps when a file or directory doesn't exist.</p>
+                        <div class="bg-gray-900 rounded-lg p-4 text-sm mb-4">
+                            <pre class="text-gray-100"><code><span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">if-missing:</span> <span class="text-green-400">node_modules</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Installing dependencies..."</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm install"</span>
+
+  - <span class="text-purple-400">if-missing:</span> <span class="text-green-400">.env</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"cp .env.example .env"</span></code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Nesting -->
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-3 text-gray-900">Nested Conditionals</h3>
+                        <p class="text-gray-700 mb-4">Conditionals can be nested for complex logic.</p>
+                        <div class="bg-gray-900 rounded-lg p-4 text-sm mb-4">
+                            <pre class="text-gray-100"><code><span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">production</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Production deployment"</span>
+
+      - <span class="text-purple-400">if-missing:</span> <span class="text-green-400">dist</span>
+        <span class="text-purple-400">then:</span>
+          - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Building..."</span>
+          - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm run build"</span></code></pre>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-12 border-gray-200">
+
+                <!-- CLI Reference -->
+                <section id="cli-reference" class="mb-12">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">CLI Reference</h2>
+
+                    <div class="space-y-6">
+                        <div>
+                            <div class="code-block p-3 rounded-lg text-sm mb-2">
+                                <code>./project</code>
+                            </div>
+                            <p class="text-gray-700 text-sm">List all available commands</p>
+                        </div>
+
+                        <div>
+                            <div class="code-block p-3 rounded-lg text-sm mb-2">
+                                <code>./project &lt;command&gt;</code>
+                            </div>
+                            <p class="text-gray-700 text-sm">Run a specific command</p>
+                        </div>
+
+                        <div>
+                            <div class="code-block p-3 rounded-lg text-sm mb-2">
+                                <code>./project &lt;command&gt; --option</code>
+                            </div>
+                            <p class="text-gray-700 text-sm">Run command with options</p>
+                        </div>
+
+                        <div>
+                            <div class="code-block p-3 rounded-lg text-sm mb-2">
+                                <code>./project &lt;command&gt; --help</code>
+                            </div>
+                            <p class="text-gray-700 text-sm">Show help for a command</p>
+                        </div>
+
+                        <div>
+                            <div class="code-block p-3 rounded-lg text-sm mb-2">
+                                <code>./project --version</code>
+                            </div>
+                            <p class="text-gray-700 text-sm">Show version information</p>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="my-12 border-gray-200">
+
+                <!-- Troubleshooting -->
+                <section id="troubleshooting" class="mb-12">
+                    <h2 class="text-3xl font-bold mb-4 text-gray-900">Troubleshooting</h2>
+
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <h4 class="font-bold mb-2 text-gray-900">Command not found</h4>
+                            <p class="text-gray-700 mb-2">Make sure the command file exists in <code class="bg-white px-2 py-1 rounded">.project/</code> and has a <code class="bg-white px-2 py-1 rounded">.yaml</code> or <code class="bg-white px-2 py-1 rounded">.yml</code> extension.</p>
+                            <div class="code-block p-3 rounded-lg text-sm">
+                                <code>ls -la .project/*.yaml</code>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <h4 class="font-bold mb-2 text-gray-900">Permission denied</h4>
+                            <p class="text-gray-700 mb-2">Ensure the project script is executable:</p>
+                            <div class="code-block p-3 rounded-lg text-sm">
+                                <code>chmod +x ./project</code>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <h4 class="font-bold mb-2 text-gray-900">Runner download fails</h4>
+                            <p class="text-gray-700 mb-2">Check your internet connection and ensure curl or wget is installed:</p>
+                            <div class="code-block p-3 rounded-lg text-sm">
+                                <code>which curl wget</code>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <h4 class="font-bold mb-2 text-gray-900">Docker commands fail</h4>
+                            <p class="text-gray-700 mb-2">Verify Docker is installed and running:</p>
+                            <div class="code-block p-3 rounded-lg text-sm mb-2">
+                                <code>docker --version</code><br>
+                                <code>docker-compose --version</code>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <h4 class="font-bold mb-2 text-gray-900">YAML parsing errors</h4>
+                            <p class="text-gray-700 mb-2">Check your YAML syntax. Common issues:</p>
+                            <ul class="list-disc list-inside text-gray-700 text-sm space-y-1 mt-2">
+                                <li>Incorrect indentation (use spaces, not tabs)</li>
+                                <li>Missing colons after keys</li>
+                                <li>Unquoted strings with special characters</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Support -->
+                <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-6 border border-purple-200">
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Need More Help?</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-gray-700 font-medium mb-2">Community Support</p>
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li>→ <a href="https://github.com/project-actions-org/project-actions-runner/discussions" class="text-purple-600 hover:underline">GitHub Discussions</a></li>
+                                <li>→ <a href="https://github.com/project-actions-org/project-actions-runner/issues" class="text-purple-600 hover:underline">Report Issues</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="text-gray-700 font-medium mb-2">Documentation</p>
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li>→ <a href="/guide.html" class="text-purple-600 hover:underline">Writing Commands Guide</a></li>
+                                <li>→ <a href="https://github.com/project-actions-org/project-actions-runner/tree/main/examples" class="text-purple-600 hover:underline">Example Projects</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p class="text-sm">MIT License &copy; 2024 Project Actions. Open source and free forever.</p>
+                <div class="mt-4 space-x-4">
+                    <a href="/" class="hover:text-white">Home</a>
+                    <a href="/docs.html" class="hover:text-white">Docs</a>
+                    <a href="https://github.com/project-actions-org/project-actions-runner" class="hover:text-white">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

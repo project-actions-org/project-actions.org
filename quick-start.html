@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Start - Project Actions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+        .prompt {
+            color: #22c55e;
+        }
+        .step-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold text-gray-900">
+                        <span class="text-purple-600">[>]</span> Project Actions
+                    </a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="/" class="text-gray-600 hover:text-gray-900">Home</a>
+                    <a href="/docs.html" class="text-gray-600 hover:text-gray-900">Documentation</a>
+                    <a href="/guide.html" class="text-gray-600 hover:text-gray-900">Guide</a>
+                    <a href="/quick-start.html" class="text-purple-600 font-medium">Quick Start</a>
+                    <a href="https://github.com/project-actions-org/project-actions-runner" class="text-gray-600 hover:text-gray-900">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="bg-white py-12 border-b border-gray-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-5xl font-bold mb-4 text-gray-900">Quick Start Guide</h1>
+            <p class="text-xl text-gray-600">
+                Get up and running with Project Actions in 5 minutes
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- Step 1: Installation -->
+            <div class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="step-number text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mr-4">
+                        1
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900">Install Project Actions</h2>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                    <p class="text-gray-700 mb-4">
+                        Navigate to your project directory and run the installation script:
+                    </p>
+
+                    <div class="code-block p-4 rounded-lg mb-4">
+                        <code><span class="prompt">$</span> cd /path/to/your/project</code><br>
+                        <code><span class="prompt">$</span> curl -fsSL https://project-actions.org/install.sh | bash</code>
+                    </div>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                        <p class="text-sm text-blue-900">
+                            <strong>With Starter Commands:</strong> Add <code class="bg-blue-100 px-2 py-1 rounded">--with-starter-commands</code> to get example commands:
+                        </p>
+                        <div class="code-block p-3 rounded-lg mt-2 text-sm">
+                            <code><span class="prompt">$</span> curl -fsSL https://project-actions.org/install.sh | bash -s -- --with-starter-commands</code>
+                        </div>
+                    </div>
+
+                    <p class="text-gray-700">
+                        This will create:
+                    </p>
+                    <ul class="list-disc list-inside text-gray-700 ml-4 mt-2 space-y-1">
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">.project/</code> directory for your commands</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">project</code> executable wrapper script</li>
+                        <li><code class="bg-gray-100 px-2 py-1 rounded">.project/.runtime/</code> directory for the runner</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Step 2: Verify Installation -->
+            <div class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="step-number text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mr-4">
+                        2
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900">Verify Installation</h2>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <p class="text-gray-700 mb-4">
+                        Check that everything is working:
+                    </p>
+
+                    <div class="code-block p-4 rounded-lg mb-4">
+                        <code><span class="prompt">$</span> ./project --version</code>
+                        <div class="text-gray-400 ml-4 mt-1">project version 1.0.0+202512051802</div>
+                    </div>
+
+                    <div class="code-block p-4 rounded-lg">
+                        <code><span class="prompt">$</span> ./project</code>
+                        <div class="text-gray-400 ml-4 mt-1">
+                            Available commands:<br>
+                            &nbsp;&nbsp;hello &nbsp;&nbsp;Example hello command
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Create Your First Command -->
+            <div class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="step-number text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mr-4">
+                        3
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900">Create Your First Command</h2>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                    <p class="text-gray-700 mb-4">
+                        Create a file called <code class="bg-gray-100 px-2 py-1 rounded">.project/greet.yaml</code>:
+                    </p>
+
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-4">
+                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/greet.yaml</span>
+<span class="text-purple-400">help:</span>
+  <span class="text-purple-400">short:</span> <span class="text-green-400">Greet the user</span>
+  <span class="text-purple-400">long:</span> <span class="text-green-400">|
+    This command greets the user and displays some project information.
+    Pass --formal for a formal greeting.</span>
+  <span class="text-purple-400">order:</span> <span class="text-yellow-400">10</span>
+
+<span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Hello from Project Actions!"</span>
+
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">formal</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Good day to you, esteemed developer."</span>
+
+  - <span class="text-purple-400">if-no-option:</span> <span class="text-green-400">formal</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Hey there! 👋"</span>
+
+  - <span class="text-purple-400">run:</span> <span class="text-green-400">"echo 'Project directory:' && pwd"</span>
+
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"✓ Greeting complete"</span></code></pre>
+                    </div>
+
+                    <p class="text-gray-700">
+                        Now run your command:
+                    </p>
+
+                    <div class="code-block p-4 rounded-lg mt-4">
+                        <code><span class="prompt">$</span> ./project greet</code>
+                        <div class="text-gray-400 ml-4 mt-1">
+                            Hello from Project Actions!<br>
+                            Hey there! 👋<br>
+                            Project directory: /path/to/project<br>
+                            ✓ Greeting complete
+                        </div>
+                        <br>
+                        <code><span class="prompt">$</span> ./project greet --formal</code>
+                        <div class="text-gray-400 ml-4 mt-1">
+                            Hello from Project Actions!<br>
+                            Good day to you, esteemed developer.<br>
+                            Project directory: /path/to/project<br>
+                            ✓ Greeting complete
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Real-World Example -->
+            <div class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="step-number text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mr-4">
+                        4
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900">Try a Real-World Example</h2>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <p class="text-gray-700 mb-4">
+                        Let's create a practical <code class="bg-gray-100 px-2 py-1 rounded">test</code> command that handles different testing scenarios:
+                    </p>
+
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-4">
+                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/test.yaml</span>
+<span class="text-purple-400">help:</span>
+  <span class="text-purple-400">short:</span> <span class="text-green-400">Run tests</span>
+  <span class="text-purple-400">long:</span> <span class="text-green-400">|
+    Run the test suite.
+
+    Options:
+      --watch      Watch for changes
+      --coverage   Generate coverage report
+      --unit       Run only unit tests
+      --e2e        Run only E2E tests</span>
+  <span class="text-purple-400">order:</span> <span class="text-yellow-400">30</span>
+
+<span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"🧪 Running tests..."</span>
+
+  - <span class="text-purple-400">check-for:</span> <span class="text-green-400">npm</span>
+    <span class="text-purple-400">if-missing:</span> <span class="text-green-400">"Node.js is required but not installed"</span>
+
+  - <span class="text-purple-400">if-missing:</span> <span class="text-green-400">node_modules</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Installing dependencies..."</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm install"</span>
+
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">unit</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm run test:unit"</span>
+
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">e2e</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm run test:e2e"</span>
+
+  - <span class="text-purple-400">if-no-option:</span> <span class="text-green-400">unit|e2e</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm test"</span>
+
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">coverage</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm run test:coverage"</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Coverage report: ./coverage/index.html"</span>
+
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"✅ Tests complete"</span></code></pre>
+                    </div>
+
+                    <p class="text-gray-700 mb-4">
+                        Now you can run tests with various options:
+                    </p>
+
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="code-block p-3 rounded-lg text-sm">
+                            <code><span class="prompt">$</span> ./project test</code>
+                            <div class="text-gray-400 text-xs mt-1">Run all tests</div>
+                        </div>
+                        <div class="code-block p-3 rounded-lg text-sm">
+                            <code><span class="prompt">$</span> ./project test --unit</code>
+                            <div class="text-gray-400 text-xs mt-1">Run unit tests only</div>
+                        </div>
+                        <div class="code-block p-3 rounded-lg text-sm">
+                            <code><span class="prompt">$</span> ./project test --coverage</code>
+                            <div class="text-gray-400 text-xs mt-1">Run with coverage</div>
+                        </div>
+                        <div class="code-block p-3 rounded-lg text-sm">
+                            <code><span class="prompt">$</span> ./project test --e2e</code>
+                            <div class="text-gray-400 text-xs mt-1">Run E2E tests</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5: Docker Example -->
+            <div class="mb-12">
+                <div class="flex items-center mb-6">
+                    <div class="step-number text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mr-4">
+                        5
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900">Docker Integration (Optional)</h2>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <p class="text-gray-700 mb-4">
+                        If you're using Docker Compose, Project Actions can manage your containers:
+                    </p>
+
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-4">
+                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/up.yaml</span>
+<span class="text-purple-400">help:</span>
+  <span class="text-purple-400">short:</span> <span class="text-green-400">Start the project</span>
+  <span class="text-purple-400">order:</span> <span class="text-yellow-400">10</span>
+
+<span class="text-purple-400">context:</span> <span class="text-green-400">outside-container</span>
+
+<span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">check-for:</span> <span class="text-green-400">docker</span>
+    <span class="text-purple-400">if-missing:</span> <span class="text-green-400">"Docker is required. Install from https://docker.com"</span>
+
+  - <span class="text-purple-400">action:</span> <span class="text-green-400">compose-up</span>
+
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">|
+      ✅ Project is up and running!
+      → Web: http://localhost:8000</span></code></pre>
+                    </div>
+
+                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto">
+                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/console.yaml</span>
+<span class="text-purple-400">help:</span>
+  <span class="text-purple-400">short:</span> <span class="text-green-400">Open a shell in the web container</span>
+  <span class="text-purple-400">order:</span> <span class="text-yellow-400">50</span>
+
+<span class="text-purple-400">context:</span> <span class="text-green-400">outside-container</span>
+
+<span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">action:</span> <span class="text-green-400">compose-exec</span>
+    <span class="text-purple-400">service:</span> <span class="text-green-400">web</span>
+    <span class="text-purple-400">command:</span> <span class="text-green-400">/bin/bash</span>
+    <span class="text-purple-400">interactive:</span> <span class="text-yellow-400">true</span></code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-8 border border-purple-200">
+                <h2 class="text-2xl font-bold mb-4 text-gray-900">What's Next?</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-bold text-lg mb-2 text-gray-900">📚 Learn More</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li>→ <a href="/guide.html" class="text-purple-600 hover:underline">Writing Commands Guide</a></li>
+                            <li>→ <a href="/docs.html" class="text-purple-600 hover:underline">Full Documentation</a></li>
+                            <li>→ <a href="https://github.com/project-actions-org/project-actions-runner/tree/main/examples" class="text-purple-600 hover:underline">Example Projects</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg mb-2 text-gray-900">🎯 Key Features</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li>→ All built-in actions</li>
+                            <li>→ Conditional logic</li>
+                            <li>→ Docker integration</li>
+                            <li>→ Command chaining</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p class="text-sm">MIT License &copy; 2024 Project Actions. Open source and free forever.</p>
+                <div class="mt-4 space-x-4">
+                    <a href="/" class="hover:text-white">Home</a>
+                    <a href="/docs.html" class="hover:text-white">Docs</a>
+                    <a href="https://github.com/project-actions-org/project-actions-runner" class="hover:text-white">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

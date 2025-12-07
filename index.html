@@ -3,170 +3,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Actions</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>Project Actions - YAML Workflows for Local Development</title>
+    <meta name="description" content="Write workflows in YAML and run them via CLI. Simple, powerful, and works with Docker.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @layer base {
-            body {
-                font-family: 'Roboto', sans-serif;
-                font-weight: 300;
-            }
+        body {
+            font-family: 'Inter', sans-serif;
         }
-        
-        h1, h2, h3, h4, h5, h6, strong {
-            font-weight: 700;
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
+        .prompt {
+            color: #22c55e;
+        }
     </style>
 </head>
-<body class="min-h-screen">
-    <div class="flex min-h-full flex-col">
-        <div class="mx-auto flex w-full max-w-7xl items-start gap-x-8 px-4 py-10 sm:px-6 lg:px-8">
-          <aside class="sticky top-8 hidden w-56 shrink-0 lg:block">
-            <div class="text-2xl font-bold">
-                [<span class="text-green-500">></span>] Project Actions
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-gray-900">
+                        <span class="text-purple-600">[>]</span> Project Actions
+                    </span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="/" class="text-purple-600 font-medium">Home</a>
+                    <a href="/docs.html" class="text-gray-600 hover:text-gray-900">Documentation</a>
+                    <a href="/guide.html" class="text-gray-600 hover:text-gray-900">Guide</a>
+                    <a href="/quick-start.html" class="text-gray-600 hover:text-gray-900">Quick Start</a>
+                    <a href="https://github.com/project-actions-org/project-actions-runner" class="text-gray-600 hover:text-gray-900">GitHub</a>
+                </div>
             </div>
-          </aside>
-      
-          <main class="flex-1">
-            <!-- Main area -->
-            <p class="font-light">
-                Project Actions are like Github Actions for your projects.  Write
-                workflows in YAML and run them via a command-line interface.
-            </p>
-
-            <h2 class="text-xl font-bold mt-4 mb-2">
-                Key Features
-            </h2>
-
-            <ul class="list-disc list-outside ml-6">
-                <li>
-                    <strong>No Long Hard-to-Read Bash Scripts:</strong>
-                    <p>
-                        Like Github Actions, but for your projects, no more bespoke bash scripts to maintain.
-                    </p>
-                    
-                </li>
-                <li>
-                    <strong>Multi-Platform Command Runner:</strong>
-                    <p>
-                        Runs on Mac, or Linux (for example inside your docker container)
-                    </p>
-                    
-                </li>
-                <li>
-                    <strong>Docker Container Friendly:</strong>
-                    <p>
-                        Commands can be run inside or outside of a docker container
-                    </p>
-                    
-                </li>
-                <li>
-                    <strong>Automatic Help Messaging:</strong>
-                    <p>
-                        Help messages are automatically generated from your YAML files
-                    </p>
-                </li>
-                <li>
-                    <strong>Project Integration:</strong>
-                    <p>
-                        Works seamlessly with your existing project structure.
-                    </p>
-                    
-                </li>
-            </ul>
-
-            <h2 class="text-xl font-bold mt-4 mb-2">
-                Installation
-            </h2>
-            
-            <!-- Cli formatted output -->
-            <div class="space-y-2">
-                <code class="block w-full bg-gray-100 p-3 rounded">
-                    <span class="text-green-500">$</span> curl -s https://project-actions.org/install.sh | bash
-                </code>
-            </div>
-            
-            <h3 class="text-xl font-bold mt-4 mb-2">
-                Usage
-            </h3>
-
-            <div class="space-y-2">
-                <code class="block w-full bg-gray-100 p-3 rounded">
-                    <span class="text-green-500">$</span> project help
-                </code>
-            </div>
-
-            <h3 class="text-xl font-bold mt-4 mb-2">
-                Typical (Built-in) Commands
-            </h3>
-
-            <div class="space-y-2">
-                <code class="block w-full bg-gray-100 p-3 rounded">
-                    <span class="text-green-500">$</span> project up
-                </code>
-                <code class="block w-full bg-gray-100 p-3 rounded">
-                    <span class="text-green-500">$</span> project down
-                </code>
-                <code class="block w-full bg-gray-100 p-3 rounded">
-                    <span class="text-green-500">$</span> project console
-                </code>
-                <code class="block w-full bg-gray-100 p-3 rounded">
-                    <span class="text-green-500">$</span> project refresh
-                </code>
-            </div>
-
-            <h3 class="text-xl font-bold mt-4 mb-2">
-                Layout &amp; Files
-            </h3>
-            
-            <p>
-                Project Actions uses a simple YAML files to define commands located in the <code class="bg-gray-100 p-1 rounded">.project/workflows</code> directory.
-                Here is a sample workflow for an <code class="bg-gray-100 p-1 rounded">up</code> command:
-            </p>
-            
-            <div class="space-y-2 mt-2">
-                <code class="block w-full bg-gray-100 p-3 rounded whitespace-pre text-sm">
-help:
-  short: Bring the project up
-  long: |
-    This command is used to bring the project up, which includes starting
-    all necessary services and ensuring the environment is ready for use.
-
-    Note: If you are running this for the first time, you should run
-    `project setup` first.
-  order: 2
-
-context: outside-container
-
-steps:
-  - action: compose-up
-  - echo: "Project is now up and running"
-
-  - if-option: refresh|fresh
-    then:
-      - command: refresh
-
-  - echo: |
-      The project is now up and running. You can access it at:
-      - Web: http://localhost:8000
-                </code>
-            </div>
-
-
-          </main>
-      
-          <aside class="sticky top-8 hidden w-48 shrink-0 xl:block">
-            <!-- Right column area -->
-             <a
-                class="text-blue-500 hover:underline"
-             href="https://github.com/project-actions-org/project-actions"
-             >
-                Github
-             </a>
-          </aside>
         </div>
-      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-16">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                Write workflows in YAML, run them via CLI
+            </h1>
+            <p class="text-lg md:text-xl text-purple-100 mb-8">
+                Like GitHub Actions for your local projects. Simple, powerful, and works seamlessly with Docker.
+            </p>
+            <div class="flex justify-center gap-3">
+                <a href="/quick-start.html" class="bg-white text-purple-600 px-6 py-2.5 rounded-lg font-semibold hover:bg-gray-100 transition text-sm">
+                    Get Started
+                </a>
+                <a href="/docs.html" class="border-2 border-white text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-purple-700 transition text-sm">
+                    Documentation
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="bg-white py-8 border-b border-gray-200">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="text-sm text-gray-600">
+                    <strong class="text-gray-900">Quick Install:</strong> Run in your project directory
+                </div>
+                <div class="code-block px-4 py-2.5 rounded-lg flex-1 max-w-xl">
+                    <code class="text-sm"><span class="prompt">$</span> curl -fsSL https://project-actions.org/install.sh | bash</code>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why & Perfect For Combined -->
+    <section class="py-12 bg-gray-50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-x-12 gap-y-8">
+                <!-- Left Column: Why -->
+                <div>
+                    <h2 class="text-2xl font-bold mb-6 text-gray-900">Why Project Actions?</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="font-semibold text-gray-900 mb-1">No More Bash Scripts</h3>
+                            <p class="text-sm text-gray-600">Replace long, hard-to-maintain bash scripts with clean YAML workflows.</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 mb-1">Multi-Platform</h3>
+                            <p class="text-sm text-gray-600">Runs on macOS and Linux. Works inside Docker containers too.</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 mb-1">Docker Native</h3>
+                            <p class="text-sm text-gray-600">Built-in Docker Compose support with automatic context switching.</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900 mb-1">Auto-Generated Help</h3>
+                            <p class="text-sm text-gray-600">Help messages generated from YAML. Always up-to-date.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Perfect For -->
+                <div>
+                    <h2 class="text-2xl font-bold mb-6 text-gray-900">Perfect For</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="text-purple-600 mr-3 mt-0.5">✓</div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-1">Docker Development</h3>
+                                <p class="text-sm text-gray-600">Manage containers, run migrations, open shells - all with simple commands.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-purple-600 mr-3 mt-0.5">✓</div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-1">Team Onboarding</h3>
+                                <p class="text-sm text-gray-600">New developers run <code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">project setup</code> and they're ready.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-purple-600 mr-3 mt-0.5">✓</div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-1">Complex Builds</h3>
+                                <p class="text-sm text-gray-600">Replace messy Makefiles with readable YAML workflows.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-purple-600 mr-3 mt-0.5">✓</div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-1">Multi-Environment</h3>
+                                <p class="text-sm text-gray-600">Handle staging, production, and local with command options.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Example Section -->
+    <section class="py-12 bg-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-center mb-2 text-gray-900">See It In Action</h2>
+            <p class="text-center text-gray-600 mb-8">
+                Define commands in YAML, run them with a simple CLI
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6 items-start">
+                <!-- YAML Example -->
+                <div>
+                    <h3 class="font-semibold mb-3 text-gray-900 text-sm">1. Define Your Command</h3>
+                    <div class="bg-gray-900 rounded-lg p-4 text-xs overflow-x-auto">
+                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/up.yaml</span>
+<span class="text-purple-400">help:</span>
+  <span class="text-purple-400">short:</span> <span class="text-green-400">Start the project</span>
+  <span class="text-purple-400">order:</span> <span class="text-yellow-400">10</span>
+
+<span class="text-purple-400">context:</span> <span class="text-green-400">outside-container</span>
+
+<span class="text-purple-400">steps:</span>
+  - <span class="text-purple-400">check-for:</span> <span class="text-green-400">docker</span>
+    <span class="text-purple-400">if-missing:</span> <span class="text-green-400">"Install Docker first"</span>
+
+  - <span class="text-purple-400">action:</span> <span class="text-green-400">compose-up</span>
+
+  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">fresh</span>
+    <span class="text-purple-400">then:</span>
+      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Running migrations..."</span>
+      - <span class="text-purple-400">command:</span> <span class="text-green-400">migrate</span>
+
+  - <span class="text-purple-400">echo:</span> <span class="text-green-400">|
+      ✅ Project is up!
+      → Web: http://localhost:8000</span></code></pre>
+                    </div>
+                </div>
+
+                <!-- CLI Usage -->
+                <div>
+                    <h3 class="font-semibold mb-3 text-gray-900 text-sm">2. Run It</h3>
+                    <div class="code-block rounded-lg p-4 text-xs space-y-3">
+                        <div>
+                            <code><span class="prompt">$</span> project</code>
+                            <div class="text-gray-400 mt-1.5 ml-3 text-xs">
+                                Available commands:<br>
+                                &nbsp;&nbsp;up &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start the project<br>
+                                &nbsp;&nbsp;down &nbsp;&nbsp;&nbsp;&nbsp;Stop the project<br>
+                                &nbsp;&nbsp;console &nbsp;Open a shell
+                            </div>
+                        </div>
+
+                        <div>
+                            <code><span class="prompt">$</span> project up</code>
+                            <div class="text-gray-400 mt-1.5 ml-3 text-xs">
+                                → Running: check-for<br>
+                                ✓ Completed: check-for<br>
+                                → Running: compose-up<br>
+                                &nbsp;&nbsp;Starting services...<br>
+                                ✓ Completed: compose-up<br>
+                                ✅ Project is up!<br>
+                                → Web: http://localhost:8000
+                            </div>
+                        </div>
+
+                        <div>
+                            <code><span class="prompt">$</span> project up --fresh</code>
+                            <div class="text-gray-400 mt-1.5 ml-3 text-xs">
+                                ... (starts up)<br>
+                                Running migrations...<br>
+                                ✅ Project is up!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-10">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-white font-bold mb-3 text-sm">Project Actions</h4>
+                    <p class="text-xs">
+                        YAML workflows for local development. Simple, powerful, and open source.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3 text-sm">Documentation</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="/docs.html" class="hover:text-white">Full Docs</a></li>
+                        <li><a href="/guide.html" class="hover:text-white">Writing Commands</a></li>
+                        <li><a href="/quick-start.html" class="hover:text-white">Quick Start</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3 text-sm">Resources</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="https://github.com/project-actions-org/project-actions-runner/tree/main/examples" class="hover:text-white">Examples</a></li>
+                        <li><a href="https://github.com/project-actions-org/project-actions-runner" class="hover:text-white">GitHub</a></li>
+                        <li><a href="https://github.com/project-actions-org/project-actions-runner/issues" class="hover:text-white">Report Issues</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3 text-sm">Community</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="https://github.com/project-actions-org/project-actions-runner/discussions" class="hover:text-white">Discussions</a></li>
+                        <li><a href="https://github.com/project-actions-org/project-actions-runner/blob/main/CONTRIBUTING.md" class="hover:text-white">Contributing</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-6 text-center text-xs">
+                <p>MIT License &copy; 2024 Project Actions. Open source and free forever.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
