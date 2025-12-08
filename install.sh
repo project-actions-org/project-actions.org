@@ -90,7 +90,7 @@ EOF
 download_runner() {
     echo -e "${BLUE}Downloading runner bootstrap script...${NC}"
 
-    local runner_url="https://project-actions.org/dist/${RUNNER_SCRIPT}"
+    local runner_url="https://github.com/project-actions-org/project-actions-runner/releases/latest/download/${RUNNER_SCRIPT}"
     local runner_path="${RUNTIME_DIR}/${RUNNER_SCRIPT}"
 
     if command -v curl > /dev/null 2>&1; then
