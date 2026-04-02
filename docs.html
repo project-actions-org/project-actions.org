@@ -11,7 +11,7 @@
 </head>
 <body style="background:#f8f7ff;">
 
-<nav>
+<nav aria-label="Site">
   <div class="nav-inner">
     <a href="/" class="nav-logo">
       <div class="nav-logo-mark mono">[&gt;]</div>
@@ -20,7 +20,7 @@
     <div class="nav-links">
       <a href="/" class="nav-link">Home</a>
       <a href="/actions/" class="nav-link">Actions Library</a>
-      <a href="/docs.html" class="nav-link active">Docs</a>
+      <a href="/docs.html" class="nav-link active" aria-current="page">Docs</a>
       <a href="/quick-start.html" class="nav-link">Quick Start</a>
       <a href="https://github.com/project-actions-org/project-actions-runner" class="nav-github">GitHub →</a>
     </div>
@@ -51,7 +51,7 @@
       <div style="padding:14px 16px;background:#f5f3ff;border-bottom:1px solid #ede9fe;font-weight:700;font-size:14px;color:#111;">
         Documentation
       </div>
-      <nav style="padding:8px 0;">
+      <nav style="padding:8px 0;" aria-label="Page sections">
         <a href="#installation"      class="sidebar-link active">Installation</a>
         <a href="#command-structure"  class="sidebar-link">Command Structure</a>
         <a href="#built-in-actions"   class="sidebar-link">Built-in Actions</a>
@@ -517,7 +517,7 @@
 
       <div style="display:flex;flex-direction:column;gap:16px;">
         <div style="background:#f8f7ff;border:1px solid #ede9fe;border-radius:8px;padding:16px 20px;margin:0;">
-          <h4 style="font-weight:700;margin:0 0 8px;color:#111;">Command not found</h4>
+          <h3 style="font-weight:700;margin:0 0 8px;color:#111;">Command not found</h3>
           <p style="color:#374151;line-height:1.7;margin-bottom:12px;">Make sure the command file exists in <code style="background:#f5f3ff;color:#7c3aed;padding:2px 6px;border-radius:4px;font-size:12px;font-family:'JetBrains Mono',monospace;">.project/</code> and has a <code style="background:#f5f3ff;color:#7c3aed;padding:2px 6px;border-radius:4px;font-size:12px;font-family:'JetBrains Mono',monospace;">.yaml</code> or <code style="background:#f5f3ff;color:#7c3aed;padding:2px 6px;border-radius:4px;font-size:12px;font-family:'JetBrains Mono',monospace;">.yml</code> extension.</p>
           <div class="code-panel">
             <div class="code-panel-header">
@@ -531,7 +531,7 @@
         </div>
 
         <div style="background:#f8f7ff;border:1px solid #ede9fe;border-radius:8px;padding:16px 20px;margin:0;">
-          <h4 style="font-weight:700;margin:0 0 8px;color:#111;">Permission denied</h4>
+          <h3 style="font-weight:700;margin:0 0 8px;color:#111;">Permission denied</h3>
           <p style="color:#374151;line-height:1.7;margin-bottom:12px;">Ensure the project script is executable:</p>
           <div class="code-panel">
             <div class="code-panel-header">
@@ -545,7 +545,7 @@
         </div>
 
         <div style="background:#f8f7ff;border:1px solid #ede9fe;border-radius:8px;padding:16px 20px;margin:0;">
-          <h4 style="font-weight:700;margin:0 0 8px;color:#111;">Runner download fails</h4>
+          <h3 style="font-weight:700;margin:0 0 8px;color:#111;">Runner download fails</h3>
           <p style="color:#374151;line-height:1.7;margin-bottom:12px;">Check your internet connection and ensure curl or wget is installed:</p>
           <div class="code-panel">
             <div class="code-panel-header">
@@ -559,7 +559,7 @@
         </div>
 
         <div style="background:#f8f7ff;border:1px solid #ede9fe;border-radius:8px;padding:16px 20px;margin:0;">
-          <h4 style="font-weight:700;margin:0 0 8px;color:#111;">Docker commands fail</h4>
+          <h3 style="font-weight:700;margin:0 0 8px;color:#111;">Docker commands fail</h3>
           <p style="color:#374151;line-height:1.7;margin-bottom:12px;">Verify Docker is installed and running:</p>
           <div class="code-panel">
             <div class="code-panel-header">
@@ -574,7 +574,7 @@ docker-compose --version</pre>
         </div>
 
         <div style="background:#f8f7ff;border:1px solid #ede9fe;border-radius:8px;padding:16px 20px;margin:0;">
-          <h4 style="font-weight:700;margin:0 0 8px;color:#111;">YAML parsing errors</h4>
+          <h3 style="font-weight:700;margin:0 0 8px;color:#111;">YAML parsing errors</h3>
           <p style="color:#374151;line-height:1.7;margin-bottom:8px;">Check your YAML syntax. Common issues:</p>
           <ul style="color:#374151;line-height:1.7;list-style:disc;padding-left:20px;font-size:14px;">
             <li>Incorrect indentation (use spaces, not tabs)</li>
@@ -657,16 +657,19 @@ docker-compose --version</pre>
 </footer>
 
 <script>
-// Highlight active sidebar link on scroll
 const sections = document.querySelectorAll('main [id]');
 const links = document.querySelectorAll('.sidebar-link');
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+
+function updateActiveLink() {
+  let current = sections[0]?.id || '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
   links.forEach(l => {
     l.classList.toggle('active', l.getAttribute('href') === '#' + current);
   });
-});
+}
+
+window.addEventListener('scroll', updateActiveLink);
+document.addEventListener('DOMContentLoaded', updateActiveLink);
 </script>
 </body>
 </html>
