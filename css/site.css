@@ -18,7 +18,7 @@ body { font-family: 'Inter', sans-serif; margin: 0; }
 }
 
 /* ── Navigation ── */
-nav {
+nav[aria-label="Site"] {
   position: sticky; top: 0; z-index: 100;
   background: rgba(10,8,18,0.92);
   backdrop-filter: blur(14px);
