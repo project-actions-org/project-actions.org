@@ -1,212 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quick Start - Project Actions</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .code-block {
-            background: #1e293b;
-            color: #e2e8f0;
-        }
-        .prompt {
-            color: #22c55e;
-        }
-        .step-number {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Get up and running with Project Actions in 5 minutes. Step-by-step guide to installation, your first command, and Docker integration.">
+  <title>Quick Start — Project Actions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/css/site.css">
 </head>
-<body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="bg-white border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <a href="/" class="text-2xl font-bold text-gray-900">
-                        <span class="text-purple-600">[>]</span> Project Actions
-                    </a>
-                </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="/" class="text-gray-600 hover:text-gray-900">Home</a>
-                    <a href="/docs.html" class="text-gray-600 hover:text-gray-900">Documentation</a>
-                    <a href="/guide.html" class="text-gray-600 hover:text-gray-900">Guide</a>
-                    <a href="/quick-start.html" class="text-purple-600 font-medium">Quick Start</a>
-                    <a href="https://github.com/project-actions-org/project-actions-runner" class="text-gray-600 hover:text-gray-900">GitHub</a>
-                </div>
-            </div>
+<body style="background:#f8f7ff;">
+
+<nav aria-label="Site">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-mark mono">[&gt;]</div>
+      <span style="font-weight:800;font-size:16px;color:white;letter-spacing:.5px;">Project Actions</span>
+    </a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/actions/" class="nav-link">Actions Library</a>
+      <a href="/docs.html" class="nav-link">Docs</a>
+      <a href="/quick-start.html" class="nav-link active" aria-current="page">Quick Start</a>
+      <a href="https://github.com/project-actions-org/project-actions-runner" class="nav-github">GitHub →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HERO BAND -->
+<div class="page-hero">
+  <div class="orb" aria-hidden="true" style="width:400px;height:400px;background:rgba(109,40,217,0.4);top:-150px;right:-100px;"></div>
+  <div class="orb" aria-hidden="true" style="width:300px;height:300px;background:rgba(76,29,149,0.45);top:-100px;left:-80px;"></div>
+  <div aria-hidden="true" style="position:absolute;inset:0;background-image:linear-gradient(rgba(139,92,246,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;"></div>
+  <div style="max-width:1100px;margin:0 auto;position:relative;z-index:1;">
+    <div class="section-label">Quick Start</div>
+    <h1 style="font-size:36px;font-weight:900;color:white;margin-bottom:10px;letter-spacing:-.5px;">Up and running in 5 minutes</h1>
+    <p style="color:rgba(255,255,255,0.5);font-size:15px;max-width:560px;">Install Project Actions, write your first command, and run it.</p>
+  </div>
+  <div class="wave-divider">
+    <svg viewBox="0 0 1200 50" preserveAspectRatio="none" style="width:100%;height:100%;"><path d="M0,25 C400,50 800,0 1200,25 L1200,50 L0,50 Z" fill="#f8f7ff"/></svg>
+  </div>
+</div>
+
+<!-- SINGLE-COLUMN CONTENT -->
+<div style="max-width:760px;margin:0 auto;padding:48px 24px 80px;">
+
+  <!-- Step 1: Install Project Actions -->
+  <div style="display:flex;gap:18px;align-items:flex-start;margin-bottom:48px;">
+    <div class="step-num">1</div>
+    <div style="flex:1;">
+      <h2 style="font-size:22px;font-weight:800;color:#111;margin:0 0 10px;">Install Project Actions</h2>
+      <p style="color:#6b7280;margin-bottom:16px;">Navigate to your project directory and run the installation script:</p>
+      <div class="code-panel" style="margin-bottom:16px;">
+        <div class="code-panel-header">
+          <div class="code-panel-dot" style="background:#ff5f57;"></div>
+          <div class="code-panel-dot" style="background:#febc2e;"></div>
+          <div class="code-panel-dot" style="background:#28c840;"></div>
+          <span style="margin-left:4px;">Terminal</span>
         </div>
-    </nav>
+        <pre><span class="sy-prompt">$</span> cd /path/to/your/project
+<span class="sy-prompt">$</span> curl -fsSL https://project-actions.org/install.sh | bash</pre>
+      </div>
 
-    <!-- Hero -->
-    <section class="bg-white py-12 border-b border-gray-200">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-5xl font-bold mb-4 text-gray-900">Quick Start Guide</h1>
-            <p class="text-xl text-gray-600">
-                Get up and running with Project Actions in 5 minutes
-            </p>
+      <!-- Callout: With Starter Commands -->
+      <div style="background:#f5f3ff;border:1px solid #ede9fe;border-left:3px solid #7c3aed;border-radius:8px;padding:16px;margin-bottom:16px;">
+        <p style="font-size:13px;color:#4c1d95;margin:0 0 10px;"><strong>With Starter Commands:</strong> Add <code style="background:#ede9fe;color:#7c3aed;padding:2px 6px;border-radius:4px;font-size:12px;font-family:'JetBrains Mono',monospace;">--with-starter-commands</code> to get example commands:</p>
+        <div class="code-panel">
+          <div class="code-panel-header">
+            <div class="code-panel-dot" style="background:#ff5f57;"></div>
+            <div class="code-panel-dot" style="background:#febc2e;"></div>
+            <div class="code-panel-dot" style="background:#28c840;"></div>
+            <span style="margin-left:4px;">Terminal</span>
+          </div>
+          <pre><span class="sy-prompt">$</span> curl -fsSL https://project-actions.org/install.sh | bash -s -- --with-starter-commands</pre>
         </div>
-    </section>
+      </div>
 
-    <!-- Main Content -->
-    <section class="py-12">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <p style="color:#6b7280;margin-bottom:10px;">This will create:</p>
+      <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;">
+        <li style="font-size:14px;color:#6b7280;"><code style="background:#f5f3ff;color:#7c3aed;padding:2px 6px;border-radius:4px;font-size:12px;font-family:'JetBrains Mono',monospace;">.project/</code> directory for your commands</li>
+        <li style="font-size:14px;color:#6b7280;"><code style="background:#f5f3ff;color:#7c3aed;padding:2px 6px;border-radius:4px;font-size:12px;font-family:'JetBrains Mono',monospace;">project</code> executable wrapper script</li>
+        <li style="font-size:14px;color:#6b7280;"><code style="background:#f5f3ff;color:#7c3aed;padding:2px 6px;border-radius:4px;font-size:12px;font-family:'JetBrains Mono',monospace;">.project/.runtime/</code> directory for the runner</li>
+      </ul>
+    </div>
+  </div>
 
-            <!-- Step 1: Installation -->
-            <div class="mb-12">
-                <div class="flex items-center mb-6">
-                    <div class="step-number text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mr-4">
-                        1
-                    </div>
-                    <h2 class="text-3xl font-bold text-gray-900">Install Project Actions</h2>
-                </div>
+  <!-- Step 2: Verify Installation -->
+  <div style="display:flex;gap:18px;align-items:flex-start;margin-bottom:48px;">
+    <div class="step-num">2</div>
+    <div style="flex:1;">
+      <h2 style="font-size:22px;font-weight:800;color:#111;margin:0 0 10px;">Verify Installation</h2>
+      <p style="color:#6b7280;margin-bottom:16px;">Check that everything is working:</p>
+      <div class="code-panel" style="margin-bottom:16px;">
+        <div class="code-panel-header">
+          <div class="code-panel-dot" style="background:#ff5f57;"></div>
+          <div class="code-panel-dot" style="background:#febc2e;"></div>
+          <div class="code-panel-dot" style="background:#28c840;"></div>
+          <span style="margin-left:4px;">Terminal</span>
+        </div>
+        <pre><span class="sy-prompt">$</span> ./project --version
+<span class="sy-dim">project version 1.0.0+202512051802</span></pre>
+      </div>
+      <div class="code-panel">
+        <div class="code-panel-header">
+          <div class="code-panel-dot" style="background:#ff5f57;"></div>
+          <div class="code-panel-dot" style="background:#febc2e;"></div>
+          <div class="code-panel-dot" style="background:#28c840;"></div>
+          <span style="margin-left:4px;">Terminal</span>
+        </div>
+        <pre><span class="sy-prompt">$</span> ./project
+<span class="sy-dim">Available commands:
+  hello    Example hello command</span></pre>
+      </div>
+    </div>
+  </div>
 
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-                    <p class="text-gray-700 mb-4">
-                        Navigate to your project directory and run the installation script:
-                    </p>
-
-                    <div class="code-block p-4 rounded-lg mb-4">
-                        <code><span class="prompt">$</span> cd /path/to/your/project</code><br>
-                        <code><span class="prompt">$</span> curl -fsSL https://project-actions.org/install.sh | bash</code>
-                    </div>
-
-                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
-                        <p class="text-sm text-blue-900">
-                            <strong>With Starter Commands:</strong> Add <code class="bg-blue-100 px-2 py-1 rounded">--with-starter-commands</code> to get example commands:
-                        </p>
-                        <div class="code-block p-3 rounded-lg mt-2 text-sm">
-                            <code><span class="prompt">$</span> curl -fsSL https://project-actions.org/install.sh | bash -s -- --with-starter-commands</code>
-                        </div>
-                    </div>
-
-                    <p class="text-gray-700">
-                        This will create:
-                    </p>
-                    <ul class="list-disc list-inside text-gray-700 ml-4 mt-2 space-y-1">
-                        <li><code class="bg-gray-100 px-2 py-1 rounded">.project/</code> directory for your commands</li>
-                        <li><code class="bg-gray-100 px-2 py-1 rounded">project</code> executable wrapper script</li>
-                        <li><code class="bg-gray-100 px-2 py-1 rounded">.project/.runtime/</code> directory for the runner</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Step 2: Verify Installation -->
-            <div class="mb-12">
-                <div class="flex items-center mb-6">
-                    <div class="step-number text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mr-4">
-                        2
-                    </div>
-                    <h2 class="text-3xl font-bold text-gray-900">Verify Installation</h2>
-                </div>
-
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <p class="text-gray-700 mb-4">
-                        Check that everything is working:
-                    </p>
-
-                    <div class="code-block p-4 rounded-lg mb-4">
-                        <code><span class="prompt">$</span> ./project --version</code>
-                        <div class="text-gray-400 ml-4 mt-1">project version 1.0.0+202512051802</div>
-                    </div>
-
-                    <div class="code-block p-4 rounded-lg">
-                        <code><span class="prompt">$</span> ./project</code>
-                        <div class="text-gray-400 ml-4 mt-1">
-                            Available commands:<br>
-                            &nbsp;&nbsp;hello &nbsp;&nbsp;Example hello command
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Step 3: Create Your First Command -->
-            <div class="mb-12">
-                <div class="flex items-center mb-6">
-                    <div class="step-number text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mr-4">
-                        3
-                    </div>
-                    <h2 class="text-3xl font-bold text-gray-900">Create Your First Command</h2>
-                </div>
-
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-                    <p class="text-gray-700 mb-4">
-                        Create a file called <code class="bg-gray-100 px-2 py-1 rounded">.project/greet.yaml</code>:
-                    </p>
-
-                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-4">
-                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/greet.yaml</span>
-<span class="text-purple-400">help:</span>
-  <span class="text-purple-400">short:</span> <span class="text-green-400">Greet the user</span>
-  <span class="text-purple-400">long:</span> <span class="text-green-400">|
+  <!-- Step 3: Create Your First Command -->
+  <div style="display:flex;gap:18px;align-items:flex-start;margin-bottom:48px;">
+    <div class="step-num">3</div>
+    <div style="flex:1;">
+      <h2 style="font-size:22px;font-weight:800;color:#111;margin:0 0 10px;">Create Your First Command</h2>
+      <p style="color:#6b7280;margin-bottom:16px;">Create a file called <code style="background:#f5f3ff;color:#7c3aed;padding:2px 6px;border-radius:4px;font-size:12px;font-family:'JetBrains Mono',monospace;">.project/greet.yaml</code>:</p>
+      <div class="code-panel" style="margin-bottom:16px;">
+        <div class="code-panel-header">
+          <div class="code-panel-dot" style="background:#ff5f57;"></div>
+          <div class="code-panel-dot" style="background:#febc2e;"></div>
+          <div class="code-panel-dot" style="background:#28c840;"></div>
+          <span style="margin-left:4px;">.project/greet.yaml</span>
+        </div>
+        <pre><span class="sy-comment"># .project/greet.yaml</span>
+<span class="sy-key">help:</span>
+  <span class="sy-key">short:</span> <span class="sy-val">Greet the user</span>
+  <span class="sy-key">long:</span> <span class="sy-val">|
     This command greets the user and displays some project information.
     Pass --formal for a formal greeting.</span>
-  <span class="text-purple-400">order:</span> <span class="text-yellow-400">10</span>
+  <span class="sy-key">order:</span> <span class="sy-num">10</span>
 
-<span class="text-purple-400">steps:</span>
-  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Hello from Project Actions!"</span>
+<span class="sy-key">steps:</span>
+  - <span class="sy-key">echo:</span> <span class="sy-val">"Hello from Project Actions!"</span>
 
-  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">formal</span>
-    <span class="text-purple-400">then:</span>
-      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Good day to you, esteemed developer."</span>
+  - <span class="sy-key">if-option:</span> <span class="sy-val">formal</span>
+    <span class="sy-key">then:</span>
+      - <span class="sy-key">echo:</span> <span class="sy-val">"Good day to you, esteemed developer."</span>
 
-  - <span class="text-purple-400">if-no-option:</span> <span class="text-green-400">formal</span>
-    <span class="text-purple-400">then:</span>
-      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Hey there! 👋"</span>
+  - <span class="sy-key">if-no-option:</span> <span class="sy-val">formal</span>
+    <span class="sy-key">then:</span>
+      - <span class="sy-key">echo:</span> <span class="sy-val">"Hey there! 👋"</span>
 
-  - <span class="text-purple-400">run:</span> <span class="text-green-400">"echo 'Project directory:' && pwd"</span>
+  - <span class="sy-key">run:</span> <span class="sy-val">"echo 'Project directory:' &amp;&amp; pwd"</span>
 
-  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"✓ Greeting complete"</span></code></pre>
-                    </div>
+  - <span class="sy-key">echo:</span> <span class="sy-val">"✓ Greeting complete"</span></pre>
+      </div>
 
-                    <p class="text-gray-700">
-                        Now run your command:
-                    </p>
+      <p style="color:#6b7280;margin-bottom:16px;">Now run your command:</p>
+      <div class="code-panel">
+        <div class="code-panel-header">
+          <div class="code-panel-dot" style="background:#ff5f57;"></div>
+          <div class="code-panel-dot" style="background:#febc2e;"></div>
+          <div class="code-panel-dot" style="background:#28c840;"></div>
+          <span style="margin-left:4px;">Terminal</span>
+        </div>
+        <pre><span class="sy-prompt">$</span> ./project greet
+<span class="sy-dim">Hello from Project Actions!
+Hey there! 👋
+Project directory: /path/to/project
+✓ Greeting complete</span>
 
-                    <div class="code-block p-4 rounded-lg mt-4">
-                        <code><span class="prompt">$</span> ./project greet</code>
-                        <div class="text-gray-400 ml-4 mt-1">
-                            Hello from Project Actions!<br>
-                            Hey there! 👋<br>
-                            Project directory: /path/to/project<br>
-                            ✓ Greeting complete
-                        </div>
-                        <br>
-                        <code><span class="prompt">$</span> ./project greet --formal</code>
-                        <div class="text-gray-400 ml-4 mt-1">
-                            Hello from Project Actions!<br>
-                            Good day to you, esteemed developer.<br>
-                            Project directory: /path/to/project<br>
-                            ✓ Greeting complete
-                        </div>
-                    </div>
-                </div>
-            </div>
+<span class="sy-prompt">$</span> ./project greet --formal
+<span class="sy-dim">Hello from Project Actions!
+Good day to you, esteemed developer.
+Project directory: /path/to/project
+✓ Greeting complete</span></pre>
+      </div>
+    </div>
+  </div>
 
-            <!-- Step 4: Real-World Example -->
-            <div class="mb-12">
-                <div class="flex items-center mb-6">
-                    <div class="step-number text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mr-4">
-                        4
-                    </div>
-                    <h2 class="text-3xl font-bold text-gray-900">Try a Real-World Example</h2>
-                </div>
-
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <p class="text-gray-700 mb-4">
-                        Let's create a practical <code class="bg-gray-100 px-2 py-1 rounded">test</code> command that handles different testing scenarios:
-                    </p>
-
-                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-4">
-                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/test.yaml</span>
-<span class="text-purple-400">help:</span>
-  <span class="text-purple-400">short:</span> <span class="text-green-400">Run tests</span>
-  <span class="text-purple-400">long:</span> <span class="text-green-400">|
+  <!-- Step 4: Real-World Example -->
+  <div style="display:flex;gap:18px;align-items:flex-start;margin-bottom:48px;">
+    <div class="step-num">4</div>
+    <div style="flex:1;">
+      <h2 style="font-size:22px;font-weight:800;color:#111;margin:0 0 10px;">Try a Real-World Example</h2>
+      <p style="color:#6b7280;margin-bottom:16px;">Let's create a practical <code style="background:#f5f3ff;color:#7c3aed;padding:2px 6px;border-radius:4px;font-size:12px;font-family:'JetBrains Mono',monospace;">test</code> command that handles different testing scenarios:</p>
+      <div class="code-panel" style="margin-bottom:16px;">
+        <div class="code-panel-header">
+          <div class="code-panel-dot" style="background:#ff5f57;"></div>
+          <div class="code-panel-dot" style="background:#febc2e;"></div>
+          <div class="code-panel-dot" style="background:#28c840;"></div>
+          <span style="margin-left:4px;">.project/test.yaml</span>
+        </div>
+        <pre><span class="sy-comment"># .project/test.yaml</span>
+<span class="sy-key">help:</span>
+  <span class="sy-key">short:</span> <span class="sy-val">Run tests</span>
+  <span class="sy-key">long:</span> <span class="sy-val">|
     Run the test suite.
 
     Options:
@@ -214,152 +199,201 @@
       --coverage   Generate coverage report
       --unit       Run only unit tests
       --e2e        Run only E2E tests</span>
-  <span class="text-purple-400">order:</span> <span class="text-yellow-400">30</span>
+  <span class="sy-key">order:</span> <span class="sy-num">30</span>
 
-<span class="text-purple-400">steps:</span>
-  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"🧪 Running tests..."</span>
+<span class="sy-key">steps:</span>
+  - <span class="sy-key">echo:</span> <span class="sy-val">"🧪 Running tests..."</span>
 
-  - <span class="text-purple-400">check-for:</span> <span class="text-green-400">npm</span>
-    <span class="text-purple-400">if-missing:</span> <span class="text-green-400">"Node.js is required but not installed"</span>
+  - <span class="sy-key">check-for:</span> <span class="sy-val">npm</span>
+    <span class="sy-key">if-missing:</span> <span class="sy-val">"Node.js is required but not installed"</span>
 
-  - <span class="text-purple-400">if-missing:</span> <span class="text-green-400">node_modules</span>
-    <span class="text-purple-400">then:</span>
-      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Installing dependencies..."</span>
-      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm install"</span>
+  - <span class="sy-key">if-missing:</span> <span class="sy-val">node_modules</span>
+    <span class="sy-key">then:</span>
+      - <span class="sy-key">echo:</span> <span class="sy-val">"Installing dependencies..."</span>
+      - <span class="sy-key">run:</span> <span class="sy-val">"npm install"</span>
 
-  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">unit</span>
-    <span class="text-purple-400">then:</span>
-      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm run test:unit"</span>
+  - <span class="sy-key">if-option:</span> <span class="sy-val">unit</span>
+    <span class="sy-key">then:</span>
+      - <span class="sy-key">run:</span> <span class="sy-val">"npm run test:unit"</span>
 
-  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">e2e</span>
-    <span class="text-purple-400">then:</span>
-      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm run test:e2e"</span>
+  - <span class="sy-key">if-option:</span> <span class="sy-val">e2e</span>
+    <span class="sy-key">then:</span>
+      - <span class="sy-key">run:</span> <span class="sy-val">"npm run test:e2e"</span>
 
-  - <span class="text-purple-400">if-no-option:</span> <span class="text-green-400">unit|e2e</span>
-    <span class="text-purple-400">then:</span>
-      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm test"</span>
+  - <span class="sy-key">if-no-option:</span> <span class="sy-val">unit|e2e</span>
+    <span class="sy-key">then:</span>
+      - <span class="sy-key">run:</span> <span class="sy-val">"npm test"</span>
 
-  - <span class="text-purple-400">if-option:</span> <span class="text-green-400">coverage</span>
-    <span class="text-purple-400">then:</span>
-      - <span class="text-purple-400">run:</span> <span class="text-green-400">"npm run test:coverage"</span>
-      - <span class="text-purple-400">echo:</span> <span class="text-green-400">"Coverage report: ./coverage/index.html"</span>
+  - <span class="sy-key">if-option:</span> <span class="sy-val">coverage</span>
+    <span class="sy-key">then:</span>
+      - <span class="sy-key">run:</span> <span class="sy-val">"npm run test:coverage"</span>
+      - <span class="sy-key">echo:</span> <span class="sy-val">"Coverage report: ./coverage/index.html"</span>
 
-  - <span class="text-purple-400">echo:</span> <span class="text-green-400">"✅ Tests complete"</span></code></pre>
-                    </div>
+  - <span class="sy-key">echo:</span> <span class="sy-val">"✅ Tests complete"</span></pre>
+      </div>
 
-                    <p class="text-gray-700 mb-4">
-                        Now you can run tests with various options:
-                    </p>
+      <p style="color:#6b7280;margin-bottom:16px;">Now you can run tests with various options:</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="code-panel">
+          <div class="code-panel-header">
+            <div class="code-panel-dot" style="background:#ff5f57;"></div>
+            <div class="code-panel-dot" style="background:#febc2e;"></div>
+            <div class="code-panel-dot" style="background:#28c840;"></div>
+          </div>
+          <pre><span class="sy-prompt">$</span> ./project test
+<span class="sy-dim">Run all tests</span></pre>
+        </div>
+        <div class="code-panel">
+          <div class="code-panel-header">
+            <div class="code-panel-dot" style="background:#ff5f57;"></div>
+            <div class="code-panel-dot" style="background:#febc2e;"></div>
+            <div class="code-panel-dot" style="background:#28c840;"></div>
+          </div>
+          <pre><span class="sy-prompt">$</span> ./project test --unit
+<span class="sy-dim">Run unit tests only</span></pre>
+        </div>
+        <div class="code-panel">
+          <div class="code-panel-header">
+            <div class="code-panel-dot" style="background:#ff5f57;"></div>
+            <div class="code-panel-dot" style="background:#febc2e;"></div>
+            <div class="code-panel-dot" style="background:#28c840;"></div>
+          </div>
+          <pre><span class="sy-prompt">$</span> ./project test --coverage
+<span class="sy-dim">Run with coverage</span></pre>
+        </div>
+        <div class="code-panel">
+          <div class="code-panel-header">
+            <div class="code-panel-dot" style="background:#ff5f57;"></div>
+            <div class="code-panel-dot" style="background:#febc2e;"></div>
+            <div class="code-panel-dot" style="background:#28c840;"></div>
+          </div>
+          <pre><span class="sy-prompt">$</span> ./project test --e2e
+<span class="sy-dim">Run E2E tests</span></pre>
+        </div>
+      </div>
+    </div>
+  </div>
 
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <div class="code-block p-3 rounded-lg text-sm">
-                            <code><span class="prompt">$</span> ./project test</code>
-                            <div class="text-gray-400 text-xs mt-1">Run all tests</div>
-                        </div>
-                        <div class="code-block p-3 rounded-lg text-sm">
-                            <code><span class="prompt">$</span> ./project test --unit</code>
-                            <div class="text-gray-400 text-xs mt-1">Run unit tests only</div>
-                        </div>
-                        <div class="code-block p-3 rounded-lg text-sm">
-                            <code><span class="prompt">$</span> ./project test --coverage</code>
-                            <div class="text-gray-400 text-xs mt-1">Run with coverage</div>
-                        </div>
-                        <div class="code-block p-3 rounded-lg text-sm">
-                            <code><span class="prompt">$</span> ./project test --e2e</code>
-                            <div class="text-gray-400 text-xs mt-1">Run E2E tests</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <!-- Step 5: Docker Integration -->
+  <div style="display:flex;gap:18px;align-items:flex-start;margin-bottom:48px;">
+    <div class="step-num">5</div>
+    <div style="flex:1;">
+      <h2 style="font-size:22px;font-weight:800;color:#111;margin:0 0 10px;">Docker Integration (Optional)</h2>
+      <p style="color:#6b7280;margin-bottom:16px;">If you're using Docker Compose, Project Actions can manage your containers:</p>
+      <div class="code-panel" style="margin-bottom:16px;">
+        <div class="code-panel-header">
+          <div class="code-panel-dot" style="background:#ff5f57;"></div>
+          <div class="code-panel-dot" style="background:#febc2e;"></div>
+          <div class="code-panel-dot" style="background:#28c840;"></div>
+          <span style="margin-left:4px;">.project/up.yaml</span>
+        </div>
+        <pre><span class="sy-comment"># .project/up.yaml</span>
+<span class="sy-key">help:</span>
+  <span class="sy-key">short:</span> <span class="sy-val">Start the project</span>
+  <span class="sy-key">order:</span> <span class="sy-num">10</span>
 
-            <!-- Step 5: Docker Example -->
-            <div class="mb-12">
-                <div class="flex items-center mb-6">
-                    <div class="step-number text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mr-4">
-                        5
-                    </div>
-                    <h2 class="text-3xl font-bold text-gray-900">Docker Integration (Optional)</h2>
-                </div>
+<span class="sy-key">context:</span> <span class="sy-val">outside-container</span>
 
-                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <p class="text-gray-700 mb-4">
-                        If you're using Docker Compose, Project Actions can manage your containers:
-                    </p>
+<span class="sy-key">steps:</span>
+  - <span class="sy-key">check-for:</span> <span class="sy-val">docker</span>
+    <span class="sy-key">if-missing:</span> <span class="sy-val">"Docker is required. Install from https://docker.com"</span>
 
-                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto mb-4">
-                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/up.yaml</span>
-<span class="text-purple-400">help:</span>
-  <span class="text-purple-400">short:</span> <span class="text-green-400">Start the project</span>
-  <span class="text-purple-400">order:</span> <span class="text-yellow-400">10</span>
+  - <span class="sy-key">action:</span> <span class="sy-val">compose-up</span>
 
-<span class="text-purple-400">context:</span> <span class="text-green-400">outside-container</span>
-
-<span class="text-purple-400">steps:</span>
-  - <span class="text-purple-400">check-for:</span> <span class="text-green-400">docker</span>
-    <span class="text-purple-400">if-missing:</span> <span class="text-green-400">"Docker is required. Install from https://docker.com"</span>
-
-  - <span class="text-purple-400">action:</span> <span class="text-green-400">compose-up</span>
-
-  - <span class="text-purple-400">echo:</span> <span class="text-green-400">|
+  - <span class="sy-key">echo:</span> <span class="sy-val">|
       ✅ Project is up and running!
-      → Web: http://localhost:8000</span></code></pre>
-                    </div>
-
-                    <div class="bg-gray-900 rounded-lg p-6 text-sm overflow-x-auto">
-                        <pre class="text-gray-100"><code><span class="text-gray-500"># .project/console.yaml</span>
-<span class="text-purple-400">help:</span>
-  <span class="text-purple-400">short:</span> <span class="text-green-400">Open a shell in the web container</span>
-  <span class="text-purple-400">order:</span> <span class="text-yellow-400">50</span>
-
-<span class="text-purple-400">context:</span> <span class="text-green-400">outside-container</span>
-
-<span class="text-purple-400">steps:</span>
-  - <span class="text-purple-400">action:</span> <span class="text-green-400">compose-exec</span>
-    <span class="text-purple-400">service:</span> <span class="text-green-400">web</span>
-    <span class="text-purple-400">command:</span> <span class="text-green-400">/bin/bash</span>
-    <span class="text-purple-400">interactive:</span> <span class="text-yellow-400">true</span></code></pre>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Next Steps -->
-            <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-8 border border-purple-200">
-                <h2 class="text-2xl font-bold mb-4 text-gray-900">What's Next?</h2>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div>
-                        <h3 class="font-bold text-lg mb-2 text-gray-900">📚 Learn More</h3>
-                        <ul class="space-y-2 text-gray-700">
-                            <li>→ <a href="/guide.html" class="text-purple-600 hover:underline">Writing Commands Guide</a></li>
-                            <li>→ <a href="/docs.html" class="text-purple-600 hover:underline">Full Documentation</a></li>
-                            <li>→ <a href="https://github.com/project-actions-org/project-actions-runner/tree/main/examples" class="text-purple-600 hover:underline">Example Projects</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="font-bold text-lg mb-2 text-gray-900">🎯 Key Features</h3>
-                        <ul class="space-y-2 text-gray-700">
-                            <li>→ All built-in actions</li>
-                            <li>→ Conditional logic</li>
-                            <li>→ Docker integration</li>
-                            <li>→ Command chaining</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+      → Web: http://localhost:8000</span></pre>
+      </div>
+      <div class="code-panel">
+        <div class="code-panel-header">
+          <div class="code-panel-dot" style="background:#ff5f57;"></div>
+          <div class="code-panel-dot" style="background:#febc2e;"></div>
+          <div class="code-panel-dot" style="background:#28c840;"></div>
+          <span style="margin-left:4px;">.project/console.yaml</span>
         </div>
-    </section>
+        <pre><span class="sy-comment"># .project/console.yaml</span>
+<span class="sy-key">help:</span>
+  <span class="sy-key">short:</span> <span class="sy-val">Open a shell in the web container</span>
+  <span class="sy-key">order:</span> <span class="sy-num">50</span>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-400 py-12 mt-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <p class="text-sm">MIT License &copy; 2024 Project Actions. Open source and free forever.</p>
-                <div class="mt-4 space-x-4">
-                    <a href="/" class="hover:text-white">Home</a>
-                    <a href="/docs.html" class="hover:text-white">Docs</a>
-                    <a href="https://github.com/project-actions-org/project-actions-runner" class="hover:text-white">GitHub</a>
-                </div>
-            </div>
+<span class="sy-key">context:</span> <span class="sy-val">outside-container</span>
+
+<span class="sy-key">steps:</span>
+  - <span class="sy-key">action:</span> <span class="sy-val">compose-exec</span>
+    <span class="sy-key">service:</span> <span class="sy-val">web</span>
+    <span class="sy-key">command:</span> <span class="sy-val">/bin/bash</span>
+    <span class="sy-key">interactive:</span> <span class="sy-num">true</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT'S NEXT callout -->
+  <div style="background:linear-gradient(135deg,rgba(124,58,237,0.06),rgba(59,130,246,0.06));border:1px solid rgba(124,58,237,0.2);border-radius:12px;padding:32px;">
+    <h2 style="font-size:22px;font-weight:800;color:#111;margin:0 0 20px;">What's Next?</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div>
+        <h3 style="font-size:15px;font-weight:700;color:#111;margin:0 0 10px;">📦 Expand Your Project</h3>
+        <p style="font-size:13px;color:#6b7280;margin:0 0 10px;">See all available actions and starter packs.</p>
+        <a href="/actions/" class="btn-primary" style="font-size:13px;padding:8px 18px;">Browse Actions Library →</a>
+      </div>
+      <div>
+        <h3 style="font-size:15px;font-weight:700;color:#111;margin:0 0 10px;">📚 Learn More</h3>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;">
+          <li><a href="/guide.html" style="color:#7c3aed;text-decoration:none;font-size:13px;">→ Writing Commands Guide</a></li>
+          <li><a href="/docs.html" style="color:#7c3aed;text-decoration:none;font-size:13px;">→ Full Documentation</a></li>
+          <li><a href="https://github.com/project-actions-org/project-actions-runner/tree/main/examples" style="color:#7c3aed;text-decoration:none;font-size:13px;">→ Example Projects</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:40px;">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <div class="nav-logo-mark mono" style="width:28px;height:28px;border-radius:7px;font-size:12px;">[&gt;]</div>
+          <span style="font-weight:800;font-size:15px;color:white;">Project Actions</span>
         </div>
-    </footer>
+        <p style="font-size:13px;color:rgba(255,255,255,0.4);line-height:1.6;max-width:260px;">YAML workflows for local development. Open source, MIT licensed.</p>
+      </div>
+      <div>
+        <div class="footer-col-label">Learn</div>
+        <div class="footer-links">
+          <a href="/quick-start.html">Quick Start</a>
+          <a href="/docs.html">Documentation</a>
+          <a href="/guide.html">Writing Commands</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-label">Actions</div>
+        <div class="footer-links">
+          <a href="/actions/">Actions Library</a>
+          <a href="/docs.html#built-in-actions">Built-in Actions</a>
+          <a href="/docs.html#docker">Docker Actions</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-label">Project</div>
+        <div class="footer-links">
+          <a href="https://github.com/project-actions-org/project-actions-runner">GitHub</a>
+          <a href="https://github.com/project-actions-org/project-actions-runner/discussions">Discussions</a>
+          <a href="https://github.com/project-actions-org/project-actions-runner/blob/main/CONTRIBUTING.md">Contributing</a>
+          <a href="/for/agents.html">For Agents</a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.07);padding-top:24px;display:flex;justify-content:space-between;align-items:center;">
+      <p style="font-size:12px;color:rgba(255,255,255,0.25);">MIT License © 2026 Project Actions. Open source and free forever.</p>
+      <div style="display:flex;gap:16px;">
+        <a href="https://github.com/project-actions-org/project-actions-runner" style="font-size:12px;color:rgba(255,255,255,0.3);text-decoration:none;">GitHub</a>
+        <a href="https://github.com/project-actions-org/project-actions-runner/issues" style="font-size:12px;color:rgba(255,255,255,0.3);text-decoration:none;">Issues</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
