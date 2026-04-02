@@ -50,7 +50,7 @@ Run without arguments to list all available templates:
     test.yaml
   .runtime/          <- runner binary and cache (gitignored)
     runner.sh
-    runner-darwin-arm64
+    command-runner-darwin-arm64
 project              <- wrapper script (committed to source control)
 
 
@@ -88,7 +88,7 @@ Prints a message to stdout.
 Checks that a CLI tool is available. Exits with an error message if not found.
 
     - check-for: composer
-      message: "Composer is required. See https://getcomposer.org"
+      if-missing: "Composer is required. See https://getcomposer.org"
 
 ### if-missing
 Runs the nested then: steps only if a file or directory does not exist.
@@ -134,9 +134,9 @@ help:
 
 steps:
   - check-for: composer
-    message: "Composer is required. See https://getcomposer.org"
+    if-missing: "Composer is required. See https://getcomposer.org"
   - check-for: php
-    message: "PHP is required. See https://php.net"
+    if-missing: "PHP is required. See https://php.net"
   - run: composer install
   - if-missing: .env
     then:
