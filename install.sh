@@ -4,7 +4,6 @@
 #
 # Usage:
 #   curl -fsSL https://project-actions.org/install.sh | bash
-#   curl -fsSL https://project-actions.org/install.sh | bash -s -- --with-starter-commands
 #
 
 set -e
@@ -19,25 +18,15 @@ NC='\033[0m' # No Color
 # Configuration
 PROJECT_DIR=".project"
 RUNTIME_DIR="${PROJECT_DIR}/.runtime"
-COMMANDS_DIR="${PROJECT_DIR}"
 RUNNER_SCRIPT="runner.sh"
 PROJECT_SCRIPT="project"
-WITH_STARTER_COMMANDS=false
-
-# Parse arguments
-for arg in "$@"; do
-    case $arg in
-        --with-starter-commands)
-            WITH_STARTER_COMMANDS=true
-            shift
-            ;;
-    esac
-done
 
 # Detect platform
 detect_platform() {
-    local os=$(uname -s | tr '[:upper:]' '[:lower:]')
-    local arch=$(uname -m)
+    local os
+    local arch
+    os=$(uname -s | tr '[:upper:]' '[:lower:]')
+    arch=$(uname -m)
 
     case "$arch" in
         x86_64|amd64)
@@ -55,11 +44,135 @@ detect_platform() {
     echo "${os}-${arch}"
 }
 
+# Detect the project framework by inspecting marker files
+detect_framework() {
+    # Laravel: composer.json contains laravel/framework
+    if [ -f "composer.json" ] && grep -q '"laravel/framework"' composer.json 2>/dev/null; then
+        echo "laravel"
+        return
+    fi
+
+    # Django: manage.py present, or requirements.txt contains django
+    if [ -f "manage.py" ]; then
+        echo "django"
+        return
+    fi
+    if [ -f "requirements.txt" ] && grep -qi "django" requirements.txt 2>/dev/null; then
+        echo "django"
+        return
+    fi
+
+    # Next.js: package.json contains "next" as a dependency
+    if [ -f "package.json" ] && grep -qE '"next"\s*:' package.json 2>/dev/null; then
+        echo "nextjs"
+        return
+    fi
+
+    # Rails: Gemfile contains gem 'rails' or gem "rails"
+    if [ -f "Gemfile" ] && grep -qE "gem ['\"]rails['\"]" Gemfile 2>/dev/null; then
+        echo "rails"
+        return
+    fi
+
+    # Generic Node.js: package.json present (no specific framework above matched)
+    if [ -f "package.json" ]; then
+        echo "node"
+        return
+    fi
+
+    # Generic Python: requirements.txt or Pipfile present
+    if [ -f "requirements.txt" ] || [ -f "Pipfile" ]; then
+        echo "python"
+        return
+    fi
+
+    echo ""
+}
+
+# Detect Docker Compose presence
+detect_docker_compose() {
+    if [ -f "docker-compose.yml" ] || [ -f "docker-compose.yaml" ] || \
+       [ -f "compose.yml" ] || [ -f "compose.yaml" ]; then
+        echo "true"
+    else
+        echo ""
+    fi
+}
+
+# Interactive framework selection fallback
+prompt_framework() {
+    echo ""
+    echo "  What kind of project is this? (press Enter to skip)"
+    echo ""
+    echo "    1) Laravel    (./project init laravel)"
+    echo "    2) Django     (./project init django)"
+    echo "    3) Next.js    (./project init nextjs)"
+    echo "    4) Rails      (./project init rails)"
+    echo "    5) Node.js    (./project init node)"
+    echo "    6) Python     (./project init python)"
+    echo "    7) Skip"
+    echo ""
+    read -p "  Choice [7]: " -r FRAMEWORK_CHOICE </dev/tty
+    echo ""
+    case "$FRAMEWORK_CHOICE" in
+        1) echo "laravel" ;;
+        2) echo "django" ;;
+        3) echo "nextjs" ;;
+        4) echo "rails" ;;
+        5) echo "node" ;;
+        6) echo "python" ;;
+        *) echo "" ;;
+    esac
+}
+
+# Map internal framework identifier to human-readable display name
+framework_label() {
+    case "$1" in
+        laravel) echo "Laravel" ;;
+        django)  echo "Django" ;;
+        nextjs)  echo "Next.js" ;;
+        rails)   echo "Rails" ;;
+        node)    echo "Node.js" ;;
+        python)  echo "Python" ;;
+        *)       echo "$1" ;;
+    esac
+}
+
+# Print the post-install recommendation
+print_recommendation() {
+    local framework="$1"
+    local has_docker="$2"
+
+    if [ -n "$framework" ]; then
+        local init_cmd="./project init ${framework}"
+        if [ -n "$has_docker" ]; then
+            init_cmd="./project init ${framework} docker"
+        fi
+
+        local label
+        label=$(framework_label "$framework")
+        if [ -n "$has_docker" ]; then
+            echo -e "${GREEN}✓ Detected ${label} project + Docker Compose${NC}"
+        else
+            echo -e "${GREEN}✓ Detected ${label} project${NC}"
+        fi
+        echo ""
+        echo "  Run this to add starter commands:"
+        echo -e "    ${BLUE}${init_cmd}${NC}"
+        echo ""
+        echo "  Or run without arguments to see all available templates:"
+        echo -e "    ${BLUE}./project init${NC}"
+    else
+        echo "  Add starter commands anytime:"
+        echo -e "    ${BLUE}./project init${NC}"
+    fi
+}
+
 # Check if we're in a project directory
 check_project() {
     if [ -d "${PROJECT_DIR}" ]; then
         echo -e "${YELLOW}Warning: ${PROJECT_DIR} directory already exists${NC}"
-        read -p "Continue with installation? (y/N) " -n 1 -r
+        read -p "Continue with installation? (y/N) " -n 1 -r </dev/tty
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
             echo "Installation cancelled"
@@ -72,7 +185,6 @@ check_project() {
 create_directories() {
     echo -e "${BLUE}Creating directory structure...${NC}"
     mkdir -p "${RUNTIME_DIR}"
-    mkdir -p "${COMMANDS_DIR}"
 
     # Create .gitignore for runtime directory
     cat > "${RUNTIME_DIR}/.gitignore" << 'EOF'
@@ -144,29 +256,6 @@ EOF
     echo -e "${GREEN}✓ Created ${PROJECT_SCRIPT} wrapper script${NC}"
 }
 
-# Download starter commands
-download_starter_commands() {
-    echo -e "${BLUE}Downloading starter commands...${NC}"
-
-    # For now, create simple example commands
-    # In production, these would be downloaded from the website
-
-    cat > "${COMMANDS_DIR}/hello.yaml" << 'EOF'
-help:
-  short: Example hello command
-  long: |
-    This is an example command that demonstrates basic Project Actions features.
-  order: 1
-
-steps:
-  - echo: "Hello from Project Actions!"
-  - run: "echo 'Current directory:' && pwd"
-  - echo: "✓ Command completed successfully"
-EOF
-
-    echo -e "${GREEN}✓ Created starter commands${NC}"
-}
-
 # Main installation
 main() {
     echo -e "${BLUE}================================${NC}"
@@ -191,9 +280,13 @@ main() {
     # Create wrapper script
     create_wrapper
 
-    # Download starter commands if requested
-    if [ "$WITH_STARTER_COMMANDS" = true ]; then
-        download_starter_commands
+    # Detect project framework and Docker Compose
+    FRAMEWORK=$(detect_framework)
+    HAS_DOCKER=$(detect_docker_compose)
+
+    # If no framework detected, ask interactively
+    if [ -z "$FRAMEWORK" ]; then
+        FRAMEWORK=$(prompt_framework)
     fi
 
     echo ""
@@ -201,12 +294,9 @@ main() {
     echo -e "${GREEN}Installation Complete!${NC}"
     echo -e "${GREEN}================================${NC}"
     echo ""
-    echo "To get started:"
-    echo -e "  ${BLUE}./${PROJECT_SCRIPT}${NC}              - List available commands"
-    echo -e "  ${BLUE}./${PROJECT_SCRIPT} hello${NC}        - Run the hello command"
-    echo ""
-    echo "Create your own commands:"
-    echo -e "  Add YAML files to ${BLUE}${COMMANDS_DIR}/${NC}"
+
+    print_recommendation "$FRAMEWORK" "$HAS_DOCKER"
+
     echo ""
     echo "Documentation:"
     echo "  https://project-actions.org/docs"
