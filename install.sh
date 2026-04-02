@@ -18,14 +18,15 @@ NC='\033[0m' # No Color
 # Configuration
 PROJECT_DIR=".project"
 RUNTIME_DIR="${PROJECT_DIR}/.runtime"
-COMMANDS_DIR="${PROJECT_DIR}"
 RUNNER_SCRIPT="runner.sh"
 PROJECT_SCRIPT="project"
 
 # Detect platform
 detect_platform() {
-    local os=$(uname -s | tr '[:upper:]' '[:lower:]')
-    local arch=$(uname -m)
+    local os
+    local arch
+    os=$(uname -s | tr '[:upper:]' '[:lower:]')
+    arch=$(uname -m)
 
     case "$arch" in
         x86_64|amd64)
@@ -56,13 +57,13 @@ detect_framework() {
         echo "django"
         return
     fi
-    if [ -f "requirements.txt" ] && grep -qi "^django" requirements.txt 2>/dev/null; then
+    if [ -f "requirements.txt" ] && grep -qi "django" requirements.txt 2>/dev/null; then
         echo "django"
         return
     fi
 
     # Next.js: package.json contains "next" as a dependency
-    if [ -f "package.json" ] && grep -q '"next"' package.json 2>/dev/null; then
+    if [ -f "package.json" ] && grep -qE '"next"\s*:' package.json 2>/dev/null; then
         echo "nextjs"
         return
     fi
@@ -111,7 +112,7 @@ prompt_framework() {
     echo "    6) Python     (./project init python)"
     echo "    7) Skip"
     echo ""
-    read -p "  Choice [7]: " -r FRAMEWORK_CHOICE
+    read -p "  Choice [7]: " -r FRAMEWORK_CHOICE </dev/tty
     echo ""
     case "$FRAMEWORK_CHOICE" in
         1) echo "laravel" ;;
@@ -121,6 +122,19 @@ prompt_framework() {
         5) echo "node" ;;
         6) echo "python" ;;
         *) echo "" ;;
+    esac
+}
+
+# Map internal framework identifier to human-readable display name
+framework_label() {
+    case "$1" in
+        laravel) echo "Laravel" ;;
+        django)  echo "Django" ;;
+        nextjs)  echo "Next.js" ;;
+        rails)   echo "Rails" ;;
+        node)    echo "Node.js" ;;
+        python)  echo "Python" ;;
+        *)       echo "$1" ;;
     esac
 }
 
@@ -135,10 +149,12 @@ print_recommendation() {
             init_cmd="./project init ${framework} docker"
         fi
 
+        local label
+        label=$(framework_label "$framework")
         if [ -n "$has_docker" ]; then
-            echo -e "${GREEN}✓ Detected ${framework} project + Docker Compose${NC}"
+            echo -e "${GREEN}✓ Detected ${label} project + Docker Compose${NC}"
         else
-            echo -e "${GREEN}✓ Detected ${framework} project${NC}"
+            echo -e "${GREEN}✓ Detected ${label} project${NC}"
         fi
         echo ""
         echo "  Run this to add starter commands:"
@@ -156,7 +172,7 @@ print_recommendation() {
 check_project() {
     if [ -d "${PROJECT_DIR}" ]; then
         echo -e "${YELLOW}Warning: ${PROJECT_DIR} directory already exists${NC}"
-        read -p "Continue with installation? (y/N) " -n 1 -r
+        read -p "Continue with installation? (y/N) " -n 1 -r </dev/tty
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
             echo "Installation cancelled"
