@@ -58,7 +58,7 @@
     <button class="filter-pill" onclick="setFilter(this,'docker')">Docker</button>
     <button class="filter-pill" onclick="setFilter(this,'starter')">Starter Packs</button>
     <div style="flex:1;"></div>
-    <input placeholder="Search actions…"
+    <input placeholder="Search actions…" aria-label="Search actions"
       style="border:1px solid #e9d5ff;border-radius:8px;padding:7px 14px;font-size:13px;outline:none;width:200px;font-family:inherit;"
       onfocus="this.style.borderColor='#a78bfa'" onblur="this.style.borderColor='#e9d5ff'"
       oninput="searchActions(this.value)">
@@ -108,7 +108,7 @@
         <div class="action-card-body">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
             <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Usage</span>
-            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - echo: \"Setup complete!\"\n  - echo: |\n      Done\n      http://localhost:8000')">copy</button>
+            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - echo: \"Setup complete!\"\n  - echo: |\n      Done\n      → http://localhost:8000')">copy</button>
           </div>
           <div class="snippet mono"><span class="sy-key">steps:</span>
   - <span class="sy-key">echo:</span> <span class="sy-val">"Setup complete!"</span>
@@ -479,39 +479,39 @@
 </footer>
 
 <script>
+let activeCategory = 'all';
+let searchQuery = '';
+
 function setFilter(el, cat) {
+  activeCategory = cat;
   document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
   el.classList.add('active');
-  document.querySelectorAll('.action-card').forEach(card => {
-    if (cat === 'all' || card.dataset.cat === cat) {
-      card.style.display = '';
-    } else {
-      card.style.display = 'none';
-    }
-  });
-  // Show/hide section headers based on visible cards
-  document.querySelectorAll('.section-group').forEach(group => {
-    const visible = Array.from(group.querySelectorAll('.action-card')).some(c => c.style.display !== 'none');
-    group.style.display = visible ? '' : 'none';
-  });
+  applyFilters();
 }
+
 function searchActions(query) {
-  const q = query.toLowerCase();
+  searchQuery = query.toLowerCase();
+  applyFilters();
+}
+
+function applyFilters() {
   document.querySelectorAll('.action-card').forEach(card => {
-    const text = card.textContent.toLowerCase();
-    card.style.display = (!q || text.includes(q)) ? '' : 'none';
+    const catMatch = activeCategory === 'all' || card.dataset.cat === activeCategory;
+    const textMatch = !searchQuery || card.textContent.toLowerCase().includes(searchQuery);
+    card.style.display = (catMatch && textMatch) ? '' : 'none';
   });
   document.querySelectorAll('.section-group').forEach(group => {
     const visible = Array.from(group.querySelectorAll('.action-card')).some(c => c.style.display !== 'none');
     group.style.display = visible ? '' : 'none';
   });
 }
+
 function copyText(btn, text) {
+  const orig = btn.innerText;
   navigator.clipboard.writeText(text).then(() => {
-    const orig = btn.innerText;
     btn.innerText = 'copied!';
     setTimeout(() => btn.innerText = orig, 1500);
-  });
+  }).catch(() => { btn.innerText = orig; });
 }
 </script>
 </body>
