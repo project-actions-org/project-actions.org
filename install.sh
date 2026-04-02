@@ -185,7 +185,6 @@ check_project() {
 create_directories() {
     echo -e "${BLUE}Creating directory structure...${NC}"
     mkdir -p "${RUNTIME_DIR}"
-    mkdir -p "${COMMANDS_DIR}"
 
     # Create .gitignore for runtime directory
     cat > "${RUNTIME_DIR}/.gitignore" << 'EOF'
