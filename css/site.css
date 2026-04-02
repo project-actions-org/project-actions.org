@@ -70,7 +70,7 @@ nav {
 }
 
 /* ── Code panels ── */
-.code-panel { background: #1e1b2e; border: 1px solid rgba(139,92,246,0.25); border-radius: 12px; overflow: hidden; }
+.code-panel { background: #1e1b2e; border: 1px solid rgba(139,92,246,0.25); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
 .code-panel-header {
   background: rgba(139,92,246,0.12); border-bottom: 1px solid rgba(139,92,246,0.2);
   padding: 10px 16px; font-size: 11px; color: rgba(255,255,255,0.5);
@@ -81,7 +81,7 @@ nav {
 .code-panel pre {
   padding: 20px; font-size: 12px; line-height: 1.7;
   margin: 0; color: #e2e8f0; overflow-x: auto;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'JetBrains Mono', monospace; flex: 1;
 }
 
 /* ── Feature cards (light bg) ── */
