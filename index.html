@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="YAML workflows for local development. Define project commands in YAML and run them via CLI — for humans and AI agents alike.">
   <title>Project Actions — YAML Workflows for Local Development</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -30,13 +31,13 @@
 <section style="position:relative;overflow:hidden;padding:90px 24px 110px;background:#0a0812;color:white;">
 
   <!-- Orbs -->
-  <div class="orb" style="width:600px;height:600px;background:rgba(109,40,217,0.45);top:-200px;right:-120px;"></div>
-  <div class="orb" style="width:500px;height:500px;background:rgba(76,29,149,0.5);top:-100px;left:-150px;"></div>
-  <div class="orb" style="width:300px;height:300px;background:rgba(59,130,246,0.2);bottom:-100px;right:20%;"></div>
-  <div class="orb" style="width:200px;height:200px;background:rgba(236,72,153,0.15);top:80px;left:40%;"></div>
+  <div aria-hidden="true" class="orb" style="width:600px;height:600px;background:rgba(109,40,217,0.45);top:-200px;right:-120px;"></div>
+  <div aria-hidden="true" class="orb" style="width:500px;height:500px;background:rgba(76,29,149,0.5);top:-100px;left:-150px;"></div>
+  <div aria-hidden="true" class="orb" style="width:300px;height:300px;background:rgba(59,130,246,0.2);bottom:-100px;right:20%;"></div>
+  <div aria-hidden="true" class="orb" style="width:200px;height:200px;background:rgba(236,72,153,0.15);top:80px;left:40%;"></div>
 
   <!-- Grid texture overlay -->
-  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(139,92,246,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;"></div>
+  <div aria-hidden="true" style="position:absolute;inset:0;background-image:linear-gradient(rgba(139,92,246,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;"></div>
 
   <div style="max-width:820px;margin:0 auto;text-align:center;position:relative;z-index:1;">
     <div class="badge" style="margin-bottom:20px;">⚡ AI-AGENT READY</div>
@@ -61,8 +62,8 @@
     <!-- Dual install switcher -->
     <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
       <div class="install-tabs">
-        <button class="install-tab active" onclick="switchTab('human')">👤 Human Install</button>
-        <button class="install-tab" onclick="switchTab('agent')">🤖 Agent Install</button>
+        <button class="install-tab active" onclick="switchTab(this,'human')">👤 Human Install</button>
+        <button class="install-tab" onclick="switchTab(this,'agent')">🤖 Agent Install</button>
       </div>
 
       <!-- Human panel -->
@@ -80,9 +81,9 @@
         <div class="agent-prompt-box">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
             <span style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(139,92,246,0.8);">Paste into Claude Code, Copilot, Cursor, or any AI agent</span>
-            <button class="copy-btn" onclick="copyText(this,document.getElementById('agentPrompt').innerText)">copy prompt</button>
+            <button class="copy-btn" onclick="copyText(this,document.getElementById('agentPrompt').dataset.prompt)">copy prompt</button>
           </div>
-          <p id="agentPrompt" class="mono" style="font-size:12px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0;">Please fetch https://project-actions.org/for/agents, read the instructions, then install and configure Project Actions in this project.</p>
+          <p id="agentPrompt" class="mono" style="font-size:12px;color:rgba(255,255,255,0.75);line-height:1.7;margin:0;" data-prompt="Please fetch https://project-actions.org/for/agents, read the instructions, then install and configure Project Actions in this project.">Please fetch https://project-actions.org/for/agents, read the instructions, then install and configure Project Actions in this project.</p>
         </div>
         <p style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:8px;">Your agent reads the machine-optimized guide and sets everything up automatically.</p>
       </div>
@@ -295,7 +296,7 @@
       </div>
     </div>
     <div style="border-top:1px solid rgba(255,255,255,0.07);padding-top:24px;display:flex;justify-content:space-between;align-items:center;">
-      <p style="font-size:12px;color:rgba(255,255,255,0.25);">MIT License © 2024 Project Actions. Open source and free forever.</p>
+      <p style="font-size:12px;color:rgba(255,255,255,0.25);">MIT License © 2026 Project Actions. Open source and free forever.</p>
       <div style="display:flex;gap:16px;">
         <a href="https://github.com/project-actions-org/project-actions-runner" style="font-size:12px;color:rgba(255,255,255,0.3);text-decoration:none;">GitHub</a>
         <a href="https://github.com/project-actions-org/project-actions-runner/issues" style="font-size:12px;color:rgba(255,255,255,0.3);text-decoration:none;">Issues</a>
@@ -305,10 +306,10 @@
 </footer>
 
 <script>
-function switchTab(tab) {
+function switchTab(el, tab) {
   document.querySelectorAll('.install-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.install-panel').forEach(p => p.classList.remove('active'));
-  event.target.classList.add('active');
+  el.classList.add('active');
   document.getElementById('panel-' + tab).classList.add('active');
 }
 function copyText(btn, text) {
