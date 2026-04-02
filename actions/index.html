@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actions Library — Project Actions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/site.css">
+</head>
+<body style="background:#f8f7ff;">
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-mark mono">[&gt;]</div>
+      <span style="font-weight:800;font-size:16px;color:white;letter-spacing:.5px;">Project Actions</span>
+    </a>
+    <div class="nav-links">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/actions/" class="nav-link active">Actions Library</a>
+      <a href="/docs.html" class="nav-link">Docs</a>
+      <a href="/quick-start.html" class="nav-link">Quick Start</a>
+      <a href="https://github.com/project-actions-org/project-actions-runner" class="nav-github">GitHub →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HERO BAND -->
+<div class="page-hero">
+  <div class="orb" aria-hidden="true" style="width:400px;height:400px;background:rgba(109,40,217,0.4);top:-150px;right:-100px;"></div>
+  <div class="orb" aria-hidden="true" style="width:300px;height:300px;background:rgba(76,29,149,0.45);top:-100px;left:-80px;"></div>
+  <div aria-hidden="true" style="position:absolute;inset:0;background-image:linear-gradient(rgba(139,92,246,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,0.04) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;"></div>
+  <div style="max-width:1100px;margin:0 auto;position:relative;z-index:1;">
+    <div class="section-label">Actions Library</div>
+    <h1 style="font-size:36px;font-weight:900;color:white;margin-bottom:10px;letter-spacing:-.5px;">
+      What can you add to your project?
+    </h1>
+    <p style="color:rgba(255,255,255,0.5);font-size:15px;max-width:560px;">
+      Browse built-in actions, Docker integrations, and starter packs.
+      Click any card to copy the YAML snippet directly into your command file.
+    </p>
+  </div>
+  <div class="wave-divider">
+    <svg viewBox="0 0 1200 50" preserveAspectRatio="none" style="width:100%;height:100%;">
+      <path d="M0,25 C400,50 800,0 1200,25 L1200,50 L0,50 Z" fill="#f8f7ff"/>
+    </svg>
+  </div>
+</div>
+
+<!-- FILTER BAR: sticky below nav -->
+<div style="background:#f8f7ff;border-bottom:1px solid #ede9fe;padding:16px 24px;position:sticky;top:60px;z-index:50;">
+  <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+    <span style="font-size:12px;font-weight:600;color:#9ca3af;margin-right:4px;">Filter:</span>
+    <button class="filter-pill active" onclick="setFilter(this,'all')">All</button>
+    <button class="filter-pill" onclick="setFilter(this,'builtin')">Built-in</button>
+    <button class="filter-pill" onclick="setFilter(this,'docker')">Docker</button>
+    <button class="filter-pill" onclick="setFilter(this,'starter')">Starter Packs</button>
+    <div style="flex:1;"></div>
+    <input placeholder="Search actions…"
+      style="border:1px solid #e9d5ff;border-radius:8px;padding:7px 14px;font-size:13px;outline:none;width:200px;font-family:inherit;"
+      onfocus="this.style.borderColor='#a78bfa'" onblur="this.style.borderColor='#e9d5ff'">
+  </div>
+</div>
+
+<!-- GRID CONTENT -->
+<div style="max-width:1100px;margin:0 auto;padding:36px 24px 64px;">
+
+  <!-- Built-in Actions -->
+  <div class="section-group">
+    <div class="section-label">Built-in Actions</div>
+    <p style="font-size:13px;color:#6b7280;margin-bottom:24px;">Available in every project — no installation needed.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px;">
+
+      <!-- run -->
+      <div class="action-card" data-cat="builtin">
+        <div class="action-card-header">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="mono" style="font-size:16px;font-weight:800;color:#111;">run</span>
+            <span class="cat-badge cat-builtin">Built-in</span>
+          </div>
+          <p>Execute any shell command. Fails the step on non-zero exit.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Usage</span>
+            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - run: npm install\n  - run: |\n      npm test\n      echo &quot;done&quot;')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-key">steps:</span>
+  - <span class="sy-key">run:</span> <span class="sy-val">npm install</span>
+  - <span class="sy-key">run:</span> <span class="sy-val">|
+      npm test
+      echo "done"</span></div>
+        </div>
+      </div>
+
+      <!-- echo -->
+      <div class="action-card" data-cat="builtin">
+        <div class="action-card-header">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="mono" style="font-size:16px;font-weight:800;color:#111;">echo</span>
+            <span class="cat-badge cat-builtin">Built-in</span>
+          </div>
+          <p>Print a message to the terminal. Supports multi-line.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Usage</span>
+            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - echo: &quot;Setup complete!&quot;\n  - echo: |\n      Done\n      http://localhost:8000')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-key">steps:</span>
+  - <span class="sy-key">echo:</span> <span class="sy-val">"Setup complete!"</span>
+  - <span class="sy-key">echo:</span> <span class="sy-val">|
+      Done
+      → http://localhost:8000</span></div>
+        </div>
+      </div>
+
+      <!-- check-for -->
+      <div class="action-card" data-cat="builtin">
+        <div class="action-card-header">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="mono" style="font-size:16px;font-weight:800;color:#111;">check-for</span>
+            <span class="cat-badge cat-builtin">Built-in</span>
+          </div>
+          <p>Assert a CLI tool exists in PATH before proceeding.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Usage</span>
+            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - check-for: docker\n    if-missing: &quot;Install Docker first&quot;')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-key">steps:</span>
+  - <span class="sy-key">check-for:</span> <span class="sy-val">docker</span>
+    <span class="sy-key">if-missing:</span> <span class="sy-val">"Install Docker first"</span></div>
+        </div>
+      </div>
+
+      <!-- if-missing -->
+      <div class="action-card" data-cat="builtin">
+        <div class="action-card-header">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="mono" style="font-size:16px;font-weight:800;color:#111;">if-missing</span>
+            <span class="cat-badge cat-builtin">Built-in</span>
+          </div>
+          <p>Run steps only if a file or directory doesn't exist yet.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Usage</span>
+            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - if-missing: .env\n    then:\n      - run: cp .env.example .env')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-key">steps:</span>
+  - <span class="sy-key">if-missing:</span> <span class="sy-val">.env</span>
+    <span class="sy-key">then:</span>
+      - <span class="sy-key">run:</span> <span class="sy-val">cp .env.example .env</span></div>
+        </div>
+      </div>
+
+      <!-- if-option -->
+      <div class="action-card" data-cat="builtin">
+        <div class="action-card-header">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="mono" style="font-size:16px;font-weight:800;color:#111;">if-option</span>
+            <span class="cat-badge cat-builtin">Built-in</span>
+          </div>
+          <p>Conditionally run steps when a CLI flag is passed.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Usage</span>
+            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - if-option: fresh\n    then:\n      - command: migrate')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-key">steps:</span>
+  - <span class="sy-key">if-option:</span> <span class="sy-val">fresh</span>
+    <span class="sy-key">then:</span>
+      - <span class="sy-key">command:</span> <span class="sy-val">migrate</span></div>
+        </div>
+      </div>
+
+      <!-- if-no-option -->
+      <div class="action-card" data-cat="builtin">
+        <div class="action-card-header">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="mono" style="font-size:16px;font-weight:800;color:#111;">if-no-option</span>
+            <span class="cat-badge cat-builtin">Built-in</span>
+          </div>
+          <p>Run steps only when a specific CLI flag is <em>not</em> passed.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Usage</span>
+            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - if-no-option: skip-build\n    then:\n      - run: npm run build')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-key">steps:</span>
+  - <span class="sy-key">if-no-option:</span> <span class="sy-val">skip-build</span>
+    <span class="sy-key">then:</span>
+      - <span class="sy-key">run:</span> <span class="sy-val">npm run build</span></div>
+        </div>
+      </div>
+
+      <!-- command -->
+      <div class="action-card" data-cat="builtin">
+        <div class="action-card-header">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="mono" style="font-size:16px;font-weight:800;color:#111;">command</span>
+            <span class="cat-badge cat-builtin">Built-in</span>
+          </div>
+          <p>Call another Project Actions command as a step.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Usage</span>
+            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - command: build\n  - command: test')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-key">steps:</span>
+  - <span class="sy-key">command:</span> <span class="sy-val">build</span>
+  - <span class="sy-key">command:</span> <span class="sy-val">test</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /.section-group -->
+
+  <!-- Docker Actions -->
+  <div class="section-group">
+    <div class="section-label">Docker Actions</div>
+    <p style="font-size:13px;color:#6b7280;margin-bottom:24px;">Docker Compose integration — start, stop, exec, and more.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px;">
+
+      <!-- compose-up -->
+      <div class="action-card" data-cat="docker">
+        <div class="action-card-header">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="mono" style="font-size:16px;font-weight:800;color:#111;">compose-up</span>
+            <span class="cat-badge cat-docker">Docker</span>
+          </div>
+          <p>Start Docker Compose services, detached by default.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Usage</span>
+            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - action: compose-up\n    detached: true')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-key">steps:</span>
+  - <span class="sy-key">action:</span> <span class="sy-val">compose-up</span>
+    <span class="sy-key">detached:</span> <span class="sy-num">true</span></div>
+        </div>
+      </div>
+
+      <!-- compose-stop -->
+      <div class="action-card" data-cat="docker">
+        <div class="action-card-header">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="mono" style="font-size:16px;font-weight:800;color:#111;">compose-stop</span>
+            <span class="cat-badge cat-docker">Docker</span>
+          </div>
+          <p>Stop running services without removing containers or volumes.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Usage</span>
+            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - action: compose-stop')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-key">steps:</span>
+  - <span class="sy-key">action:</span> <span class="sy-val">compose-stop</span></div>
+        </div>
+      </div>
+
+      <!-- compose-down -->
+      <div class="action-card" data-cat="docker">
+        <div class="action-card-header">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="mono" style="font-size:16px;font-weight:800;color:#111;">compose-down</span>
+            <span class="cat-badge cat-docker">Docker</span>
+          </div>
+          <p>Stop and remove services, optionally including volumes.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Usage</span>
+            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - action: compose-down\n    volumes: false')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-key">steps:</span>
+  - <span class="sy-key">action:</span> <span class="sy-val">compose-down</span>
+    <span class="sy-key">volumes:</span> <span class="sy-num">false</span></div>
+        </div>
+      </div>
+
+      <!-- compose-exec -->
+      <div class="action-card" data-cat="docker">
+        <div class="action-card-header">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span class="mono" style="font-size:16px;font-weight:800;color:#111;">compose-exec</span>
+            <span class="cat-badge cat-docker">Docker</span>
+          </div>
+          <p>Execute a command inside a running container.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Usage</span>
+            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - action: compose-exec\n    service: web\n    command: php artisan migrate')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-key">steps:</span>
+  - <span class="sy-key">action:</span> <span class="sy-val">compose-exec</span>
+    <span class="sy-key">service:</span> <span class="sy-val">web</span>
+    <span class="sy-key">command:</span> <span class="sy-val">php artisan migrate</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /.section-group -->
+
+  <!-- Starter Packs -->
+  <div class="section-group">
+    <div class="section-label">Starter Packs</div>
+    <p style="font-size:13px;color:#6b7280;margin-bottom:24px;">Pre-built command collections for common project types. Install with <code class="mono" style="color:#7c3aed;font-size:12px;">project init &lt;name&gt;</code>.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+
+      <!-- Laravel -->
+      <div class="action-card" data-cat="starter" style="border-style:dashed;">
+        <div class="action-card-header" style="background:#fafafa;">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span style="font-size:15px;font-weight:800;color:#111;">🐘 Laravel</span>
+            <span class="cat-badge cat-starter">Starter</span>
+          </div>
+          <p>setup, up, down, console, migrate, test commands.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Install</span>
+            <button class="copy-btn" onclick="copyText(this, 'project init laravel')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-prompt">$</span> project init laravel</div>
+        </div>
+      </div>
+
+      <!-- Django -->
+      <div class="action-card" data-cat="starter" style="border-style:dashed;">
+        <div class="action-card-header" style="background:#fafafa;">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span style="font-size:15px;font-weight:800;color:#111;">🐍 Django</span>
+            <span class="cat-badge cat-starter">Starter</span>
+          </div>
+          <p>setup, up, down, shell, migrate, test commands.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Install</span>
+            <button class="copy-btn" onclick="copyText(this, 'project init django')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-prompt">$</span> project init django</div>
+        </div>
+      </div>
+
+      <!-- Next.js -->
+      <div class="action-card" data-cat="starter" style="border-style:dashed;">
+        <div class="action-card-header" style="background:#fafafa;">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span style="font-size:15px;font-weight:800;color:#111;">▲ Next.js</span>
+            <span class="cat-badge cat-starter">Starter</span>
+          </div>
+          <p>setup, dev, build, test, lint commands.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Install</span>
+            <button class="copy-btn" onclick="copyText(this, 'project init nextjs')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-prompt">$</span> project init nextjs</div>
+        </div>
+      </div>
+
+      <!-- Rails -->
+      <div class="action-card" data-cat="starter" style="border-style:dashed;">
+        <div class="action-card-header" style="background:#fafafa;">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span style="font-size:15px;font-weight:800;color:#111;">💎 Rails</span>
+            <span class="cat-badge cat-starter">Starter</span>
+          </div>
+          <p>setup, server, console, db:migrate, test commands.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Install</span>
+            <button class="copy-btn" onclick="copyText(this, 'project init rails')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-prompt">$</span> project init rails</div>
+        </div>
+      </div>
+
+      <!-- Node -->
+      <div class="action-card" data-cat="starter" style="border-style:dashed;">
+        <div class="action-card-header" style="background:#fafafa;">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span style="font-size:15px;font-weight:800;color:#111;">🟢 Node</span>
+            <span class="cat-badge cat-starter">Starter</span>
+          </div>
+          <p>setup, dev, build, test, lint commands.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Install</span>
+            <button class="copy-btn" onclick="copyText(this, 'project init node')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-prompt">$</span> project init node</div>
+        </div>
+      </div>
+
+      <!-- Python -->
+      <div class="action-card" data-cat="starter" style="border-style:dashed;">
+        <div class="action-card-header" style="background:#fafafa;">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
+            <span style="font-size:15px;font-weight:800;color:#111;">🐍 Python</span>
+            <span class="cat-badge cat-starter">Starter</span>
+          </div>
+          <p>setup, run, test, lint, shell commands.</p>
+        </div>
+        <div class="action-card-body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Install</span>
+            <button class="copy-btn" onclick="copyText(this, 'project init python')">copy</button>
+          </div>
+          <div class="snippet mono"><span class="sy-prompt">$</span> project init python</div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /.section-group -->
+
+</div>
+
+<footer class="site-footer">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;margin-bottom:40px;">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <div class="nav-logo-mark mono" style="width:28px;height:28px;border-radius:7px;font-size:12px;">[&gt;]</div>
+          <span style="font-weight:800;font-size:15px;color:white;">Project Actions</span>
+        </div>
+        <p style="font-size:13px;color:rgba(255,255,255,0.4);line-height:1.6;max-width:260px;">YAML workflows for local development. Open source, MIT licensed.</p>
+      </div>
+      <div>
+        <div class="footer-col-label">Learn</div>
+        <div class="footer-links">
+          <a href="/quick-start.html">Quick Start</a>
+          <a href="/docs.html">Documentation</a>
+          <a href="/guide.html">Writing Commands</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-label">Actions</div>
+        <div class="footer-links">
+          <a href="/actions/">Actions Library</a>
+          <a href="/docs.html#built-in-actions">Built-in Actions</a>
+          <a href="/docs.html#docker">Docker Actions</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-label">Project</div>
+        <div class="footer-links">
+          <a href="https://github.com/project-actions-org/project-actions-runner">GitHub</a>
+          <a href="https://github.com/project-actions-org/project-actions-runner/discussions">Discussions</a>
+          <a href="https://github.com/project-actions-org/project-actions-runner/blob/main/CONTRIBUTING.md">Contributing</a>
+          <a href="/for/agents.html">For Agents</a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.07);padding-top:24px;display:flex;justify-content:space-between;align-items:center;">
+      <p style="font-size:12px;color:rgba(255,255,255,0.25);">MIT License © 2026 Project Actions. Open source and free forever.</p>
+      <div style="display:flex;gap:16px;">
+        <a href="https://github.com/project-actions-org/project-actions-runner" style="font-size:12px;color:rgba(255,255,255,0.3);text-decoration:none;">GitHub</a>
+        <a href="https://github.com/project-actions-org/project-actions-runner/issues" style="font-size:12px;color:rgba(255,255,255,0.3);text-decoration:none;">Issues</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+function setFilter(el, cat) {
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.action-card').forEach(card => {
+    if (cat === 'all' || card.dataset.cat === cat) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+  // Show/hide section headers based on visible cards
+  document.querySelectorAll('.section-group').forEach(group => {
+    const visible = Array.from(group.querySelectorAll('.action-card')).some(c => c.style.display !== 'none');
+    group.style.display = visible ? '' : 'none';
+  });
+}
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.innerText;
+    btn.innerText = 'copied!';
+    setTimeout(() => btn.innerText = orig, 1500);
+  });
+}
+</script>
+</body>
+</html>
