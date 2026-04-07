@@ -66,13 +66,32 @@ steps:
   - echo: "Setup complete"           # print a message
 
 
-## Built-in Actions
+## Primitives
+
+Primitives use shorthand syntax — the YAML key is the step type. Always available, no `action:` wrapper needed.
 
 ### run
 Executes a shell command. Fails the step if the command exits non-zero.
 
     - run: npm install
     - run: php artisan migrate
+
+**@$ interpolation:** Replace `@$` with all positional CLI arguments.
+
+    - run: @$                 # ./project run foo bar        → foo bar
+    - run: php @$             # ./project run artisan migrate → php artisan migrate
+    - run: ./vendor/bin/@$    # ./project run phpunit --filter=FooTest
+
+Error if `@$` is present but no arguments given: `no arguments given — usage: ./project run <script> [args...]`
+
+**Context-aware routing:** When the command declares `context: inside-container:<service>`, `run:` steps route through `docker-compose exec <service> sh -c "..."` automatically when the runner is outside the container.
+
+    # .project/commands/run.yaml
+    context: inside-container:web
+    steps:
+      - run: @$
+
+Usage: `./project run artisan migrate`, `./project run composer install`
 
 ### echo
 Prints a message to stdout.
@@ -105,6 +124,41 @@ Inverse of if-option -- runs steps only when the flag is NOT present.
     - if-no-option: skip-tests
       then:
         - run: php artisan test
+
+
+## Built-in Actions
+
+Built-in actions are shipped with the runner and invoked via the `action:` key.
+
+### compose-up
+Starts Docker Compose services.
+
+    - action: compose-up
+    - action: compose-up
+      detached: true
+
+### compose-stop
+Stops running services without removing containers.
+
+    - action: compose-stop
+
+### compose-down
+Stops and removes containers. Optionally removes volumes.
+
+    - action: compose-down
+    - action: compose-down
+      volumes: true
+
+### compose-exec
+Executes a command inside a running container.
+
+    - action: compose-exec
+      service: web
+      command: php artisan migrate
+    - action: compose-exec
+      service: web
+      command: bash
+      interactive: true
 
 
 ## Running Commands

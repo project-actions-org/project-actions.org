@@ -55,7 +55,7 @@
       <nav style="padding:8px 0;" aria-label="Page sections">
         <a href="#installation"      class="sidebar-link active">Installation</a>
         <a href="#command-structure"  class="sidebar-link">Command Structure</a>
-        <a href="#built-in-actions"   class="sidebar-link">Built-in Actions</a>
+        <a href="#primitives"         class="sidebar-link">Primitives</a>
         <a href="#conditionals"       class="sidebar-link">Conditionals</a>
         <a href="#docker"             class="sidebar-link">Docker Integration</a>
         <a href="#cli-reference"      class="sidebar-link">CLI Reference</a>
@@ -169,9 +169,10 @@
 
     <hr style="border:none;border-top:1px solid #f0ebff;margin:0 0 48px;">
 
-    <!-- Built-in Actions -->
-    <section id="built-in-actions" style="margin-bottom:48px;">
-      <h2 style="font-size:24px;font-weight:800;color:#111;margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid #f0ebff;">Built-in Actions</h2>
+    <!-- Primitives -->
+    <section id="primitives" style="margin-bottom:48px;">
+      <h2 style="font-size:24px;font-weight:800;color:#111;margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid #f0ebff;">Primitives</h2>
+      <p style="color:#374151;line-height:1.7;margin-bottom:24px;">Primitives are always available and use shorthand syntax — the YAML key is the step type.</p>
 
       <!-- echo -->
       <div style="margin-bottom:32px;">
@@ -196,7 +197,7 @@
       <!-- run -->
       <div style="margin-bottom:32px;">
         <h3 style="font-size:18px;font-weight:700;color:#111;margin:24px 0 12px;">run</h3>
-        <p style="color:#374151;line-height:1.7;margin-bottom:16px;">Execute shell commands.</p>
+        <p style="color:#374151;line-height:1.7;margin-bottom:16px;">Execute shell commands. Fails the step on non-zero exit.</p>
         <div class="code-panel">
           <div class="code-panel-header">
             <div class="code-panel-dot" style="background:#ff5f57;"></div>
@@ -212,6 +213,61 @@
       npm test
       echo "Tests complete"</span></pre>
         </div>
+
+        <h4 style="font-size:15px;font-weight:700;color:#111;margin:24px 0 8px;">@$ — Positional Argument Passthrough</h4>
+        <p style="color:#374151;line-height:1.7;margin-bottom:16px;">Use <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">@$</code> anywhere in the command string to pass all positional CLI arguments through to the shell command. This enables a general-purpose script runner that works for any tool in the project.</p>
+        <div class="code-panel">
+          <div class="code-panel-header">
+            <div class="code-panel-dot" style="background:#ff5f57;"></div>
+            <div class="code-panel-dot" style="background:#febc2e;"></div>
+            <div class="code-panel-dot" style="background:#28c840;"></div>
+            <span style="margin-left:4px;">.project/commands/run.yaml</span>
+          </div>
+          <pre><span class="sy-key">steps:</span>
+  - <span class="sy-key">run:</span> <span class="sy-val">@$</span>                  <span class="sy-comment"># ./project run foo bar        → foo bar</span>
+  - <span class="sy-key">run:</span> <span class="sy-val">php @$</span>             <span class="sy-comment"># ./project run artisan migrate → php artisan migrate</span>
+  - <span class="sy-key">run:</span> <span class="sy-val">./vendor/bin/@$</span>    <span class="sy-comment"># ./project run phpunit --filter=FooTest</span></pre>
+        </div>
+        <p style="color:#374151;line-height:1.7;margin-top:12px;margin-bottom:16px;">If <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">@$</code> is present but no arguments are given, the runner exits with a usage error.</p>
+
+        <h4 style="font-size:15px;font-weight:700;color:#111;margin:24px 0 8px;">Context-Aware Routing</h4>
+        <p style="color:#374151;line-height:1.7;margin-bottom:16px;">When a command declares <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">context: inside-container:&lt;service&gt;</code>, <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">run:</code> steps automatically route through <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">docker-compose exec</code> when the runner is outside the container. This applies to all <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">run:</code> steps in the command, not just steps using <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">@$</code>.</p>
+        <div style="overflow-x:auto;margin-bottom:16px;">
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+              <tr style="background:#f9f5ff;">
+                <th style="text-align:left;padding:8px 12px;border:1px solid #ede9fe;font-weight:700;color:#111;">Condition</th>
+                <th style="text-align:left;padding:8px 12px;border:1px solid #ede9fe;font-weight:700;color:#111;">Execution</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:8px 12px;border:1px solid #ede9fe;color:#374151;">No service set, or already inside container</td>
+                <td style="padding:8px 12px;border:1px solid #ede9fe;font-family:'JetBrains Mono',monospace;color:#7c3aed;font-size:12px;">sh -c "&lt;cmd&gt;"</td>
+              </tr>
+              <tr style="background:#faf9ff;">
+                <td style="padding:8px 12px;border:1px solid #ede9fe;color:#374151;">Outside container, service set</td>
+                <td style="padding:8px 12px;border:1px solid #ede9fe;font-family:'JetBrains Mono',monospace;color:#7c3aed;font-size:12px;">docker-compose exec &lt;service&gt; sh -c "&lt;cmd&gt;"</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="code-panel">
+          <div class="code-panel-header">
+            <div class="code-panel-dot" style="background:#ff5f57;"></div>
+            <div class="code-panel-dot" style="background:#febc2e;"></div>
+            <div class="code-panel-dot" style="background:#28c840;"></div>
+            <span style="margin-left:4px;">.project/commands/run.yaml</span>
+          </div>
+          <pre><span class="sy-key">help:</span>
+  <span class="sy-key">short:</span> <span class="sy-val">Run a script or binary inside the web container</span>
+
+<span class="sy-key">context:</span> <span class="sy-val">inside-container:web</span>
+
+<span class="sy-key">steps:</span>
+  - <span class="sy-key">run:</span> <span class="sy-val">@$</span></pre>
+        </div>
+        <p style="color:#374151;line-height:1.7;margin-top:12px;">Usage: <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">./project run artisan migrate</code>, <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">./project run composer install</code>, etc. Add this command with <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">./project init docker</code>.</p>
       </div>
 
       <!-- command -->
@@ -256,6 +312,7 @@
     <!-- Conditionals -->
     <section id="conditionals" style="margin-bottom:48px;">
       <h2 style="font-size:24px;font-weight:800;color:#111;margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid #f0ebff;">Conditionals</h2>
+      <p style="color:#374151;line-height:1.7;margin-bottom:24px;">Conditional primitives use the same shorthand syntax and control which steps execute based on CLI flags or filesystem state.</p>
 
       <!-- if-option -->
       <div style="margin-bottom:32px;">
@@ -355,6 +412,7 @@
     <!-- Docker Integration -->
     <section id="docker" style="margin-bottom:48px;">
       <h2 style="font-size:24px;font-weight:800;color:#111;margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid #f0ebff;">Docker Integration</h2>
+      <p style="color:#374151;line-height:1.7;margin-bottom:24px;">Built-in actions are shipped with the runner and invoked via the <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">action:</code> key.</p>
 
       <!-- compose-up -->
       <div style="margin-bottom:32px;">
@@ -633,7 +691,7 @@ docker-compose --version</pre>
         <div class="footer-col-label">Actions</div>
         <div class="footer-links">
           <a href="/actions/">Actions Library</a>
-          <a href="/docs.html#built-in-actions">Built-in Actions</a>
+          <a href="/docs.html#primitives">Primitives</a>
           <a href="/docs.html#docker">Docker Actions</a>
         </div>
       </div>

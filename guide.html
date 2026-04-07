@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Learn to write YAML command files for Project Actions — steps, conditionals, built-in actions, and Docker integration.">
+  <meta name="description" content="Learn to write YAML command files for Project Actions — steps, conditionals, primitives, and Docker integration.">
   <title>Writing Commands Guide — Project Actions</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -437,6 +437,30 @@
 
   - <span class="sy-key">echo:</span> <span class="sy-val">"✓ Project stopped"</span></pre>
       </div>
+
+      <h3 style="font-size:18px;font-weight:700;color:#111;margin:24px 0 12px;">Pass-Through Script Runner</h3>
+      <p style="color:#374151;line-height:1.7;margin-bottom:16px;">
+        Combine <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">@$</code> interpolation with <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">context: inside-container:&lt;service&gt;</code> to create a general-purpose script runner that automatically routes through <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">docker-compose exec</code> when called from outside the container.
+      </p>
+      <div class="code-panel">
+        <div class="code-panel-header">
+          <div class="code-panel-dot" style="background:#ff5f57;"></div>
+          <div class="code-panel-dot" style="background:#febc2e;"></div>
+          <div class="code-panel-dot" style="background:#28c840;"></div>
+          <span style="margin-left:4px;">.project/commands/run.yaml</span>
+        </div>
+        <pre><span class="sy-key">help:</span>
+  <span class="sy-key">short:</span> <span class="sy-val">Run a script or binary inside the web container</span>
+  <span class="sy-key">order:</span> <span class="sy-val">10</span>
+
+<span class="sy-key">context:</span> <span class="sy-val">inside-container:web</span>
+
+<span class="sy-key">steps:</span>
+  - <span class="sy-key">run:</span> <span class="sy-val">@$</span></pre>
+      </div>
+      <p style="color:#374151;line-height:1.7;margin-top:12px;margin-bottom:16px;">
+        With this command in place, <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">./project run artisan migrate</code> runs <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">docker-compose exec web sh -c "artisan migrate"</code> from the host, or runs <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">artisan migrate</code> directly when already inside the container. Add it with <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">./project init docker</code>.
+      </p>
     </section>
 
     <hr style="border:none;border-top:1px solid #f0ebff;margin:0 0 48px;">
@@ -676,7 +700,7 @@
         <div class="footer-col-label">Actions</div>
         <div class="footer-links">
           <a href="/actions/">Actions Library</a>
-          <a href="/docs.html#built-in-actions">Built-in Actions</a>
+          <a href="/docs.html#primitives">Primitives</a>
           <a href="/docs.html#docker">Docker Actions</a>
         </div>
       </div>

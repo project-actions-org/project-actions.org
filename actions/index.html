@@ -55,7 +55,7 @@
   <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
     <span style="font-size:12px;font-weight:600;color:#9ca3af;margin-right:4px;">Filter:</span>
     <button class="filter-pill active" onclick="setFilter(this,'all')">All</button>
-    <button class="filter-pill" onclick="setFilter(this,'builtin')">Built-in</button>
+    <button class="filter-pill" onclick="setFilter(this,'builtin')">Primitives</button>
     <button class="filter-pill" onclick="setFilter(this,'docker')">Docker</button>
     <button class="filter-pill" onclick="setFilter(this,'starter')">Starter Packs</button>
     <div style="flex:1;"></div>
@@ -71,8 +71,8 @@
 
   <!-- Built-in Actions -->
   <div class="section-group">
-    <div class="section-label">Built-in Actions</div>
-    <p style="font-size:13px;color:#6b7280;margin-bottom:24px;">Available in every project — no installation needed.</p>
+    <div class="section-label">Primitives</div>
+    <p style="font-size:13px;color:#6b7280;margin-bottom:24px;">Always available — the YAML key is the step type. No <code style="font-family:'JetBrains Mono',monospace;">action:</code> wrapper needed.</p>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px;">
 
       <!-- run -->
@@ -80,20 +80,19 @@
         <div class="action-card-header">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
             <span class="mono" style="font-size:16px;font-weight:800;color:#111;">run</span>
-            <span class="cat-badge cat-builtin">Built-in</span>
+            <span class="cat-badge cat-builtin">Primitive</span>
           </div>
-          <p>Execute any shell command. Fails the step on non-zero exit.</p>
+          <p>Execute any shell command. Supports <code style="font-family:'JetBrains Mono',monospace;font-size:11px;">@$</code> for positional arg passthrough and automatic <code style="font-family:'JetBrains Mono',monospace;font-size:11px;">docker-compose exec</code> routing when used with <code style="font-family:'JetBrains Mono',monospace;font-size:11px;">context: inside-container</code>.</p>
         </div>
         <div class="action-card-body">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
             <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Usage</span>
-            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - run: npm install\n  - run: |\n      npm test\n      echo \"done\"')">copy</button>
+            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - run: npm install\n  - run: @$\n  - run: php @$')">copy</button>
           </div>
           <div class="snippet mono"><span class="sy-key">steps:</span>
   - <span class="sy-key">run:</span> <span class="sy-val">npm install</span>
-  - <span class="sy-key">run:</span> <span class="sy-val">|
-      npm test
-      echo "done"</span></div>
+  - <span class="sy-key">run:</span> <span class="sy-val">@$</span>          <span class="sy-comment"># pass all CLI args through</span>
+  - <span class="sy-key">run:</span> <span class="sy-val">php @$</span>     <span class="sy-comment"># prefix a binary</span></div>
         </div>
       </div>
 
@@ -102,7 +101,7 @@
         <div class="action-card-header">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
             <span class="mono" style="font-size:16px;font-weight:800;color:#111;">echo</span>
-            <span class="cat-badge cat-builtin">Built-in</span>
+            <span class="cat-badge cat-builtin">Primitive</span>
           </div>
           <p>Print a message to the terminal. Supports multi-line.</p>
         </div>
@@ -124,7 +123,7 @@
         <div class="action-card-header">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
             <span class="mono" style="font-size:16px;font-weight:800;color:#111;">check-for</span>
-            <span class="cat-badge cat-builtin">Built-in</span>
+            <span class="cat-badge cat-builtin">Primitive</span>
           </div>
           <p>Assert a CLI tool exists in PATH before proceeding.</p>
         </div>
@@ -144,7 +143,7 @@
         <div class="action-card-header">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
             <span class="mono" style="font-size:16px;font-weight:800;color:#111;">if-missing</span>
-            <span class="cat-badge cat-builtin">Built-in</span>
+            <span class="cat-badge cat-builtin">Primitive</span>
           </div>
           <p>Run steps only if a file or directory doesn't exist yet.</p>
         </div>
@@ -165,7 +164,7 @@
         <div class="action-card-header">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
             <span class="mono" style="font-size:16px;font-weight:800;color:#111;">if-option</span>
-            <span class="cat-badge cat-builtin">Built-in</span>
+            <span class="cat-badge cat-builtin">Primitive</span>
           </div>
           <p>Conditionally run steps when a CLI flag is passed.</p>
         </div>
@@ -186,7 +185,7 @@
         <div class="action-card-header">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
             <span class="mono" style="font-size:16px;font-weight:800;color:#111;">if-no-option</span>
-            <span class="cat-badge cat-builtin">Built-in</span>
+            <span class="cat-badge cat-builtin">Primitive</span>
           </div>
           <p>Run steps only when a specific CLI flag is <em>not</em> passed.</p>
         </div>
@@ -207,7 +206,7 @@
         <div class="action-card-header">
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;">
             <span class="mono" style="font-size:16px;font-weight:800;color:#111;">command</span>
-            <span class="cat-badge cat-builtin">Built-in</span>
+            <span class="cat-badge cat-builtin">Primitive</span>
           </div>
           <p>Call another Project Actions command as a step.</p>
         </div>
@@ -455,7 +454,7 @@
         <div class="footer-col-label">Actions</div>
         <div class="footer-links">
           <a href="/actions/">Actions Library</a>
-          <a href="/docs.html#built-in-actions">Built-in Actions</a>
+          <a href="/docs.html#primitives">Primitives</a>
           <a href="/docs.html#docker">Docker Actions</a>
         </div>
       </div>
