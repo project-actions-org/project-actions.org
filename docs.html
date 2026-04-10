@@ -214,8 +214,8 @@
       echo "Tests complete"</span></pre>
         </div>
 
-        <h4 style="font-size:15px;font-weight:700;color:#111;margin:24px 0 8px;">@$ — Positional Argument Passthrough</h4>
-        <p style="color:#374151;line-height:1.7;margin-bottom:16px;">Use <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">@$</code> anywhere in the command string to pass all positional CLI arguments through to the shell command. This enables a general-purpose script runner that works for any tool in the project.</p>
+        <h4 style="font-size:15px;font-weight:700;color:#111;margin:24px 0 8px;">&lt;args&gt; — Argument Interpolation</h4>
+        <p style="color:#374151;line-height:1.7;margin-bottom:16px;">Use <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">&lt;args&gt;</code> anywhere in the command string to pass all positional CLI arguments through to the shell command. Individual arguments are accessible as <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">&lt;args.0&gt;</code>, <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">&lt;args.1&gt;</code>, etc. Use <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">&lt;args.length&gt;</code> to get the argument count.</p>
         <div class="code-panel">
           <div class="code-panel-header">
             <div class="code-panel-dot" style="background:#ff5f57;"></div>
@@ -224,14 +224,14 @@
             <span style="margin-left:4px;">.project/commands/run.yaml</span>
           </div>
           <pre><span class="sy-key">steps:</span>
-  - <span class="sy-key">run:</span> <span class="sy-val">@$</span>                  <span class="sy-comment"># ./project run foo bar        → foo bar</span>
-  - <span class="sy-key">run:</span> <span class="sy-val">php @$</span>             <span class="sy-comment"># ./project run artisan migrate → php artisan migrate</span>
-  - <span class="sy-key">run:</span> <span class="sy-val">./vendor/bin/@$</span>    <span class="sy-comment"># ./project run phpunit --filter=FooTest</span></pre>
+  - <span class="sy-key">run:</span> <span class="sy-val">&lt;args&gt;</span>               <span class="sy-comment"># ./project run foo bar        → foo bar</span>
+  - <span class="sy-key">run:</span> <span class="sy-val">php &lt;args&gt;</span>          <span class="sy-comment"># ./project run artisan migrate → php artisan migrate</span>
+  - <span class="sy-key">run:</span> <span class="sy-val">composer &lt;args&gt;</span>     <span class="sy-comment"># ./project run install        → composer install</span></pre>
         </div>
-        <p style="color:#374151;line-height:1.7;margin-top:12px;margin-bottom:16px;">If <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">@$</code> is present but no arguments are given, the runner exits with a usage error.</p>
+        <p style="color:#374151;line-height:1.7;margin-top:12px;margin-bottom:16px;">If <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">&lt;args&gt;</code> or <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">&lt;args.N&gt;</code> is present but the required arguments are not given, the runner exits with a usage error. <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">&lt;args.length&gt;</code> never errors — it evaluates to <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">0</code> when no arguments are given.</p>
 
         <h4 style="font-size:15px;font-weight:700;color:#111;margin:24px 0 8px;">Context-Aware Routing</h4>
-        <p style="color:#374151;line-height:1.7;margin-bottom:16px;">When a command declares <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">context: inside-container:&lt;service&gt;</code>, <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">run:</code> steps automatically route through <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">docker-compose exec</code> when the runner is outside the container. This applies to all <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">run:</code> steps in the command, not just steps using <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">@$</code>.</p>
+        <p style="color:#374151;line-height:1.7;margin-bottom:16px;">When a command declares <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">context: inside-container:&lt;service&gt;</code>, <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">run:</code> steps automatically route through <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">docker-compose exec</code> when the runner is outside the container. This applies to all <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">run:</code> steps in the command, not just steps using <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">&lt;args&gt;</code>.</p>
         <div style="overflow-x:auto;margin-bottom:16px;">
           <table style="width:100%;border-collapse:collapse;font-size:13px;">
             <thead>
@@ -265,7 +265,7 @@
 <span class="sy-key">context:</span> <span class="sy-val">inside-container:web</span>
 
 <span class="sy-key">steps:</span>
-  - <span class="sy-key">run:</span> <span class="sy-val">@$</span></pre>
+  - <span class="sy-key">run:</span> <span class="sy-val">&lt;args&gt;</span></pre>
         </div>
         <p style="color:#374151;line-height:1.7;margin-top:12px;">Usage: <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">./project run artisan migrate</code>, <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">./project run composer install</code>, etc. Add this command with <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">./project init docker</code>.</p>
       </div>

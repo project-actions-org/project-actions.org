@@ -82,17 +82,17 @@
             <span class="mono" style="font-size:16px;font-weight:800;color:#111;">run</span>
             <span class="cat-badge cat-builtin">Primitive</span>
           </div>
-          <p>Execute any shell command. Supports <code style="font-family:'JetBrains Mono',monospace;font-size:11px;">@$</code> for positional arg passthrough and automatic <code style="font-family:'JetBrains Mono',monospace;font-size:11px;">docker-compose exec</code> routing when used with <code style="font-family:'JetBrains Mono',monospace;font-size:11px;">context: inside-container</code>.</p>
+          <p>Execute any shell command. Supports <code style="font-family:'JetBrains Mono',monospace;font-size:11px;">&lt;args&gt;</code> for positional arg passthrough and automatic <code style="font-family:'JetBrains Mono',monospace;font-size:11px;">docker-compose exec</code> routing when used with <code style="font-family:'JetBrains Mono',monospace;font-size:11px;">context: inside-container</code>.</p>
         </div>
         <div class="action-card-body">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
             <span style="font-size:10px;font-weight:700;letter-spacing:1px;color:#9ca3af;text-transform:uppercase;">Usage</span>
-            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - run: npm install\n  - run: @$\n  - run: php @$')">copy</button>
+            <button class="copy-btn" onclick="copyText(this, 'steps:\n  - run: npm install\n  - run: &lt;args&gt;\n  - run: php &lt;args&gt;')">copy</button>
           </div>
           <div class="snippet mono"><span class="sy-key">steps:</span>
   - <span class="sy-key">run:</span> <span class="sy-val">npm install</span>
-  - <span class="sy-key">run:</span> <span class="sy-val">@$</span>          <span class="sy-comment"># pass all CLI args through</span>
-  - <span class="sy-key">run:</span> <span class="sy-val">php @$</span>     <span class="sy-comment"># prefix a binary</span></div>
+  - <span class="sy-key">run:</span> <span class="sy-val">&lt;args&gt;</span>          <span class="sy-comment"># pass all CLI args through</span>
+  - <span class="sy-key">run:</span> <span class="sy-val">php &lt;args&gt;</span>     <span class="sy-comment"># prefix a binary</span></div>
         </div>
       </div>
 

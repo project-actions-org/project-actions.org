@@ -440,7 +440,7 @@
 
       <h3 style="font-size:18px;font-weight:700;color:#111;margin:24px 0 12px;">Pass-Through Script Runner</h3>
       <p style="color:#374151;line-height:1.7;margin-bottom:16px;">
-        Combine <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">@$</code> interpolation with <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">context: inside-container:&lt;service&gt;</code> to create a general-purpose script runner that automatically routes through <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">docker-compose exec</code> when called from outside the container.
+        Combine <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">&lt;args&gt;</code> interpolation with <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">context: inside-container:&lt;service&gt;</code> to create a general-purpose script runner that automatically routes through <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">docker-compose exec</code> when called from outside the container.
       </p>
       <div class="code-panel">
         <div class="code-panel-header">
@@ -456,7 +456,7 @@
 <span class="sy-key">context:</span> <span class="sy-val">inside-container:web</span>
 
 <span class="sy-key">steps:</span>
-  - <span class="sy-key">run:</span> <span class="sy-val">@$</span></pre>
+  - <span class="sy-key">run:</span> <span class="sy-val">&lt;args&gt;</span></pre>
       </div>
       <p style="color:#374151;line-height:1.7;margin-top:12px;margin-bottom:16px;">
         With this command in place, <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">./project run artisan migrate</code> runs <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">docker-compose exec web sh -c "artisan migrate"</code> from the host, or runs <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">artisan migrate</code> directly when already inside the container. Add it with <code style="color:#7c3aed;font-family:'JetBrains Mono',monospace;font-size:13px;">./project init docker</code>.
